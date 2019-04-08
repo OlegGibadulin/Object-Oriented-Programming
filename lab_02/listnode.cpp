@@ -1,0 +1,109 @@
+//
+//  listnode.cpp
+//  lab_02
+//
+//  Created by Mac-HOME on 08/04/2019.
+//  Copyright © 2019 Mac-HOME. All rights reserved.
+//
+
+#include "listnode.hpp"
+
+template <typename typeData>
+ListNode <typeData>::ListNode()
+{
+    this->data = 0;
+    this->next = nullptr;
+}
+
+template <typename typeData>
+ListNode <typeData>::ListNode(const typeData data)
+{
+    this->data = data;
+    this->next = nullptr;
+}
+
+template <typename typeData>
+ListNode <typeData>::ListNode(ListNode& nextNode)
+{
+    this->data = nextNode.data;
+    this->next = &nextNode;
+}
+
+template <typename typeData>
+ListNode< typeData>::ListNode(const typeData data, ListNode& nextNode)
+{
+    this->data = data;
+    this->next = &nextNode;
+}
+
+template <typename typeData>
+ListNode <typeData>::~ListNode()
+{
+    this->next = nullptr;
+}
+
+template <typename typeData>
+void ListNode <typeData>::setData(const typeData data)
+{
+    this->data = data;
+}
+
+template <typename typeData>
+typeData ListNode <typeData>::getData() const
+{
+    return this->data;
+}
+
+template <typename typeData>
+void ListNode <typeData>::setNext(ListNode& nextNode)
+{
+    this->next = &nextNode;
+}
+
+template <typename typeData>
+ListNode <typeData>* ListNode <typeData>::getNext()
+{
+    return this->next;
+}
+
+template <typename typeData>
+void ListNode <typeData>::delNext()
+{
+    this->next = nullptr;
+}
+
+template <typename typeData>
+bool ListNode <typeData>::operator ==(const ListNode& secondNode) const
+{
+    return (this->data == secondNode.data) ? true : false;
+}
+
+template <typename typeData>
+bool ListNode <typeData>::operator !=(const ListNode& secondNode) const
+{
+    return (this->data != secondNode.data) ? true : false;
+}
+
+template <typename typeData>
+bool ListNode <typeData>::operator >(const ListNode& secondNode) const
+{
+    return (this->data > secondNode.data) ? true : false;
+}
+
+template <typename typeData>
+bool ListNode <typeData>::operator <(const ListNode& secondNode) const
+{
+    return (this->data < secondNode.data) ? true : false;
+}
+
+template <typename typeData>
+bool ListNode <typeData>::operator >=(const ListNode& secondNode) const
+{
+    return (this->data >= secondNode.data) ? true : false;
+}
+
+template <typename typeData>
+bool ListNode <typeData>::operator <=(const ListNode& secondNode) const
+{
+    return (this->data <= secondNode.data) ? true : false;
+}

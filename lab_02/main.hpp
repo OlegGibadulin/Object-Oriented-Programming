@@ -2,18 +2,19 @@
 //  main.hpp
 //  lab_02
 //
-//  Created by Mac-HOME on 06/04/2019.
+//  Created by Mac-HOME on 08/04/2019.
 //  Copyright © 2019 Mac-HOME. All rights reserved.
 //
 
-#ifndef main_h
-#define main_h
+#ifndef main_hpp
+#define main_hpp
 
 #include <iostream>
 
-#include "testClass.hpp"
-#include "newTestClass.hpp"
-#include "TestTemplate.hpp"
-#include "exeptions.hpp"
+using namespace std;
 
-#endif /* main_h */
+#include "listnode.cpp"
+#include "list.hpp"
+#include "errors.hpp"
+
+#endif /* main_hpp */
