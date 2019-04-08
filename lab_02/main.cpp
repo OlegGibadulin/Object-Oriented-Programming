@@ -119,5 +119,17 @@ int main(int argc, const char * argv[])
     stackTest.push(10);
     std::cout << stackTest.pop() << std::endl;*/
     
+    // exeption
+    
+    /*TestExeption objE;
+    
+    try
+    {
+        objE.func();
+    } catch (TestExeption::ExeptionClass)
+    {
+        std::cout << "string exeption" << std::endl;
+    }*/
+    
     return 0;
 }

@@ -14,5 +14,6 @@
 #include "testClass.hpp"
 #include "newTestClass.hpp"
 #include "TestTemplate.hpp"
+#include "exeptions.hpp"
 
 #endif /* main_h */
