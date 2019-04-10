@@ -49,11 +49,11 @@ class CompareError : public ErrorBase
     }
 };
 
-class TypeError : public ErrorBase
+class DataError : public ErrorBase
 {
     const char* what() const throw()
     {
-        return "Different types of elements";
+        return "Wrong transmitted data";
     }
 };
 

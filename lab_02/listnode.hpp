@@ -13,20 +13,19 @@ template <typename typeData>
 class ListNode
 {
 public:
-    template <typename typeList> friend class List;
+    // template <typename typeList> friend class List;
     
     ListNode();
     explicit ListNode(const typeData data);
-    ListNode(ListNode& nextNode);
+    ListNode(ListNode& node);
     ListNode(const typeData data, ListNode& nextNode);
     ~ListNode();
     
     void setData(const typeData data);
     typeData getData() const;
     
-    void setNext(ListNode& nextNode);
+    void setNext(ListNode* nextNode);
     ListNode* getNext();
-    void delNext();
     
     bool operator ==(const ListNode& secondNode) const;
     bool operator !=(const ListNode& secondNode) const;

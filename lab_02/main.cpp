@@ -12,7 +12,7 @@ int main()
 {
     cout << "Тестировние списка одностороннего доступа\n" << endl;
     
-    ListNode <int> A;
+    /*ListNode <int> A;
     ListNode <int> B(10);
     ListNode <int> C(B);
     ListNode <int> D(B.getData(), C);
@@ -29,7 +29,15 @@ int main()
     cout << E.getData() << endl;
     
     if (E == D)
-        cout << "!" << endl;
+        cout << "!" << endl;*/
+    
+    List <int> list0;
+    List <int> list1(list0);
+    int arr[10] = { 1, 2, 3, 4 };
+    List <int> list2(arr, 10);
+    List <int> list3(10);
+    List <int> list4(10, 10);
+    list4.append(10);
     
     /*try
     {

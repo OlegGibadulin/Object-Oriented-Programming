@@ -23,10 +23,10 @@ ListNode <typeData>::ListNode(const typeData data)
 }
 
 template <typename typeData>
-ListNode <typeData>::ListNode(ListNode& nextNode)
+ListNode <typeData>::ListNode(ListNode& node)
 {
-    this->data = nextNode.data;
-    this->next = &nextNode;
+    this->data = node.data;
+    this->next = &node;
 }
 
 template <typename typeData>
@@ -55,21 +55,15 @@ typeData ListNode <typeData>::getData() const
 }
 
 template <typename typeData>
-void ListNode <typeData>::setNext(ListNode& nextNode)
+void ListNode <typeData>::setNext(ListNode* nextNode)
 {
-    this->next = &nextNode;
+    this->next = nextNode;
 }
 
 template <typename typeData>
 ListNode <typeData>* ListNode <typeData>::getNext()
 {
     return this->next;
-}
-
-template <typename typeData>
-void ListNode <typeData>::delNext()
-{
-    this->next = nullptr;
 }
 
 template <typename typeData>
