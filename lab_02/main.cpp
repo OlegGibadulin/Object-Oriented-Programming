@@ -38,6 +38,65 @@ int main()
     List <int> list3(10);
     List <int> list4(10, 10);
     list4.append(10);
+    List <int> list5(list3);
+    List <int> list6;
+    list4.extend(list6);
+    list6.append(11);
+    list6.append(11);
+    list4.extend(list6);
+    
+    List <int> list7;
+    list7.append(10);
+    list7.showList();
+    list7.clear();
+    list7.showList();
+    
+    List <int> list8(list2);
+    list8.extend(list6);
+    list8.showList();
+    
+    List <int> list9(list2);
+    list9.showList();
+    list9.append(5);
+    list9.showList();
+    list9.remove(5);
+    list9.showList();
+    cout << list9.pop() << endl;
+    list9.showList();
+    list9.append(10);
+    cout << list9.index(10) << endl;
+    list9.showList();
+    cout << list9.count(10) << endl;
+    list9.showList();
+    list9.reverse();
+    list9.showList();
+    // list9.append(-10);
+    list9.showList();
+    list9.sort();
+    list9.showList();
+    list9.sort(true);
+    list9.showList();
+    
+    /*List <int> list5(list3);
+    list5.showList();
+    list5.insert(0, 0);
+    list5.showList();
+    list5.insert(-1, -1);
+    list5.showList();
+    list5.insert(-10, -10);
+    list5.showList();
+    list5.insert(11, 11);
+    list5.showList();
+    list5.insert(2, 2);
+    list5.showList();*/
+    
+    /*list0.showList();
+    list1.showList();
+    list2.showList();
+    list3.showList();
+    list4.showList();
+    list5.showList();
+    list6.showList();*/
     
     /*try
     {

@@ -37,7 +37,7 @@ class RangeError : public ErrorBase
 {
     const char* what() const throw()
     {
-        return "List is out of range";
+        return "Index out of range";
     }
 };
 
@@ -49,11 +49,11 @@ class CompareError : public ErrorBase
     }
 };
 
-class DataError : public ErrorBase
+class ValueError : public ErrorBase
 {
     const char* what() const throw()
     {
-        return "Wrong transmitted data";
+        return "Value not in list";
     }
 };
 

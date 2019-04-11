@@ -11,6 +11,7 @@
 
 #include "errors.hpp"
 #include "listnode.hpp"
+#include <iostream>
 
 template <typename typeData>
 class List
@@ -20,6 +21,9 @@ private:
     ListNode <typeData>* head;
     
     ListNode <typeData>* initNode(typeData data, ListNode <typeData>* ptrNode = nullptr);
+    void deleteNode(ListNode <typeData>* cur, ListNode <typeData>* tmp);
+    bool increaseCmp(typeData lData, typeData rData) const;
+    bool decreaseCmp(typeData lData, typeData rData) const;
     
 public:
     List();
@@ -28,23 +32,35 @@ public:
     List(const typeData* arr, const size_t sizeArr);
     virtual ~List();
     
+    void showList()
+    {
+        if (this->head == nullptr)
+        {
+            std::cout << "nullptr" << std::endl;
+            return;
+        }
+        ListNode <typeData>* cur = this->head;
+        for (; cur; cur = cur->getNext())
+            std::cout << cur->getData() << " ";
+        std::cout << "\n";
+    }
+    
     size_t size() const;
     bool isEmpty() const;
     
     void append(typeData data);
-    void insert(typeData data, size_t position = 0);
+    void insert(typeData data, int posToAdd = 0);
     void extend(const List& ListToAdd);
     
     void remove(typeData dataToSearch);
-    typeData pop(size_t position = 0);
+    typeData pop(int posToDel = -1);
     void clear();
     
-    void index(typeData dataToSearch) const;
+    size_t index(typeData dataToSearch) const;
     size_t count(typeData dataToSearch) const;
     
     void reverse();
-    void sort(bool reverse = false); // pointer to function
-    List* copy() const;
+    void sort(bool reverse = false);
 protected:
 };
 

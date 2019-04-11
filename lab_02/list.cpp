@@ -22,108 +22,67 @@ ListNode <typeData>* List <typeData>::initNode(typeData data, ListNode<typeData>
 }
 
 template <typename typeData>
-List <typeData>::List()
+void List <typeData>::deleteNode(ListNode<typeData> *cur, ListNode<typeData> *tmp)
 {
-    this->head = nullptr;
-    this->sizeList = 0;
+    if (cur == this->head)
+    {
+        this->head = cur->getNext();
+        delete(cur);
+    }
+    else
+    {
+        tmp->setNext(cur->getNext());
+        delete(cur);
+    }
+    this->sizeList -= 1;
 }
 
 template <typename typeData>
-List <typeData>::List(const typeData data, const size_t countData)
+List <typeData>::List() : sizeList(0)
 {
-    ListNode <typeData>* newHead = new ListNode <typeData>;
-    if (!newHead)
-        throw MemoryError();
-    newHead->setData(data);
-    newHead->setNext(nullptr);
-    this->head = newHead;
-    
+    this->head = nullptr;
+}
+
+template <typename typeData>
+List <typeData>::List(const typeData data, const size_t countData) : sizeList(0)
+{
+    this->head = initNode(data);
     ListNode <typeData> *cur = this->head;
     
     for (size_t i = 1; i < countData; ++i, cur = cur->getNext())
     {
-        ListNode <typeData>* newNode = new ListNode <typeData>;
-        if (!newNode)
-            throw MemoryError();
-        newNode->setData(data);
-        newNode->setNext(nullptr);
+        ListNode <typeData>* newNode = initNode(data);
         cur->setNext(newNode);
     }
-    this->sizeList = countData;
 }
 
 template <typename typeData>
-List <typeData>::List(const List <typeData>& someList)
+List <typeData>::List(const List <typeData>& someList) : sizeList(0)
 {
-    if (!someList.head)
-    {
-        this->head = nullptr;
-    }
-    else
-    {
-        ListNode <typeData>* newHead = new ListNode <typeData>;
-        if (!newHead)
-            throw MemoryError();
-        newHead->setData(someList.head->getData());
-        newHead->setNext(someList.head->getNext());
-        this->head = newHead;
-        this->sizeList += 1;
-        
-        ListNode <typeData> *cur = someList.head->getNext();
-        
-        for (; cur; cur = cur->getNext())
-        {
-            ListNode <typeData>* newNode = new ListNode <typeData>;
-            if (!newNode)
-                throw MemoryError();
-            newNode->setData(cur->getData());
-            newNode->setNext(cur->getNext());
-            this->sizeList += 1;
-        }
-    }
+    this->head = nullptr;
+    this->extend(someList);
 }
 
 template <typename typeData>
-List <typeData>::List(const typeData* arr, const size_t sizeArr)
+List <typeData>::List(const typeData* arr, const size_t sizeArr) : sizeList(0)
 {
-    if (arr == nullptr)
-        throw DataError();
+    /*if (arr == nullptr)
+        throw DataError();*/
     
-    ListNode <typeData>* newHead = new ListNode <typeData>;
-    if (!newHead)
-        throw MemoryError();
-    newHead->setData(arr[0]);
-    newHead->setNext(nullptr);
-    this->head = newHead;
-    
+    this->head = initNode(arr[0]);
     ListNode <typeData> *cur = this->head;
     
     for (size_t i = 1; i < sizeArr; ++i, cur = cur->getNext())
     {
-        ListNode <typeData>* newNode = new ListNode <typeData>;
-        if (!newNode)
-            throw MemoryError();
-        newNode->setData(arr[i]);
-        newNode->setNext(nullptr);
+        ListNode <typeData>* newNode = initNode(arr[i]);
         cur->setNext(newNode);
     }
-    this->sizeList = sizeArr;
 }
 
 template <typename typeData>
 List <typeData>::~List()
 {
-    if (this->head)
-    {
-        ListNode <typeData>* next;
-        for (; this->head; this->head = next)
-        {
-            next = this->head->getNext();
-            delete this->head;
-        }
-    }
-    this->head = nullptr;
-    this->sizeList = 0;
+    this->clear();
 }
 
 template <typename typeData>
@@ -135,7 +94,7 @@ size_t List <typeData>::size() const
 template <typename typeData>
 bool List <typeData>::isEmpty() const
 {
-    return (sizeList == 0) ? true : false;
+    return (this->head == nullptr) ? true : false;
 }
 
 template <typename typeData>
@@ -156,61 +115,212 @@ void List <typeData>::append(typeData data)
 }
 
 template <typename typeData>
-void List <typeData>::insert(typeData data, size_t position)
+void List <typeData>::insert(typeData data, int posToAdd)
 {
-    ;
+    if (posToAdd < 0)
+        posToAdd = int (sizeList) + posToAdd;
+    
+    if (this->isEmpty() || posToAdd <= 0)
+    {
+        ListNode <typeData>* headNode = this->head;
+        this->head = initNode(data, headNode);
+    }
+    else
+    {
+        ListNode <typeData> *cur = this->head;
+        for (int i = 1; cur->getNext() && i < posToAdd; i++, cur = cur->getNext());
+        ListNode <typeData>* nextNode = cur->getNext();
+        ListNode <typeData>* newNode = initNode(data, nextNode);
+        cur->setNext(newNode);
+    }
 }
 
 template <typename typeData>
 void List <typeData>::extend(const List& ListToAdd)
 {
-    ;
+    if (ListToAdd.isEmpty())
+        return;
+    
+    typeData data = ListToAdd.head->getData();
+    ListNode <typeData>* nextNode = ListToAdd.head->getNext();
+    ListNode <typeData>* nodeToAdd = initNode(data, nextNode);
+    ListNode <typeData> *cur = this->head;
+    
+    if (this->isEmpty())
+    {
+        cur = nodeToAdd;
+        this->head = cur;
+    }
+    else
+    {
+        for (; cur->getNext(); cur = cur->getNext());
+        cur->setNext(nodeToAdd);
+        cur = cur->getNext();
+    }
+    
+    ListNode <typeData> *curToAdd = nextNode;
+    
+    for (; curToAdd; curToAdd = curToAdd->getNext(), cur = cur->getNext())
+    {
+        data = curToAdd->getData();
+        nextNode = curToAdd->getNext();
+        ListNode <typeData>* newNode = initNode(data, nextNode);
+        cur->setNext(newNode);
+    }
 }
 
 template <typename typeData>
 void List <typeData>::remove(typeData dataToSearch)
 {
-    ;
+    if (this->isEmpty())
+        throw EmptyError();
+    
+    ListNode <typeData>* cur = this->head;
+    ListNode <typeData>* tmp = this->head;
+    
+    for (; cur && cur->getData() != dataToSearch; tmp = cur, cur = cur->getNext());
+    
+    if (cur == nullptr)
+        throw ValueError();
+    
+    deleteNode(cur, tmp);
 }
 
 template <typename typeData>
-typeData List <typeData>::pop(size_t position)
+typeData List <typeData>::pop(int posToDel)
 {
-    ;
+    if (this->isEmpty())
+        throw EmptyError();
+    
+    if (std::abs(posToDel) >= int (sizeList))
+        throw RangeError();
+    
+    ListNode <typeData>* cur = this->head;
+    ListNode <typeData>* tmp = this->head;
+    typeData retData;
+    
+    if (posToDel < 0)
+        posToDel = int (sizeList) + posToDel;
+    
+    for (int i = 0; i != posToDel; tmp = cur, cur = cur->getNext(), ++i);
+    retData = cur->getData();
+    
+    deleteNode(cur, tmp);
+    
+    return retData;
 }
 
 template <typename typeData>
 void List <typeData>::clear()
 {
-    ;
+    if (!this->isEmpty())
+    {
+        ListNode <typeData>* next;
+        for (; this->head; this->head = next)
+        {
+            next = this->head->getNext();
+            delete this->head;
+        }
+    }
+    this->head = nullptr;
+    this->sizeList = 0;
 }
 
 template <typename typeData>
-void List <typeData>::index(typeData dataToSearch) const
+size_t List <typeData>::index(typeData dataToSearch) const
 {
-    ;
+    if (this->isEmpty())
+        throw EmptyError();
+    
+    ListNode <typeData>* cur = this->head;
+    size_t index = 0;
+    
+    for (; cur && cur->getData() != dataToSearch; cur = cur->getNext(), ++index);
+    
+    if (cur == nullptr)
+        throw ValueError();
+    
+    return index;
 }
 
 template <typename typeData>
 size_t List <typeData>::count(typeData dataToSearch) const
 {
-    ;
+    if (this->isEmpty())
+        throw EmptyError();
+    
+    ListNode <typeData>* cur = this->head;
+    size_t count = 0;
+    
+    for (; cur; cur = cur->getNext())
+    {
+        if (cur->getData() == dataToSearch)
+            ++count;
+    }
+    
+    return count;
 }
 
 template <typename typeData>
 void List <typeData>::reverse()
 {
-    ;
+    ListNode <typeData>* cur = this->head;
+    ListNode <typeData>* curBack = nullptr;
+    ListNode <typeData>* tmp;
+    
+    for (; cur; )
+    {
+        tmp = cur;
+        cur = cur->getNext();
+        tmp->setNext(curBack);
+        curBack = tmp;
+    }
+    this->head = curBack;
+}
+
+template <typename typeData>
+bool List <typeData>::increaseCmp(typeData lData, typeData rData) const
+{
+    return (lData > rData);
+}
+
+template <typename typeData>
+bool List <typeData>::decreaseCmp(typeData lData, typeData rData) const
+{
+    return (lData < rData);
 }
 
 template <typename typeData>
 void List <typeData>::sort(bool reverse)
 {
-    ;
-}
-
-template <typename typeData>
-List <typeData>* List <typeData>::copy() const
-{
-    ;
+    ListNode <typeData>* cur = this->head;
+    ListNode <typeData>* curToFind;
+    ListNode <typeData>* findPtr;
+    typeData curData, findData;
+    
+    bool (List <typeData>::*cmpSort) (typeData lData, typeData rData) const;
+    if (reverse)
+        cmpSort = &List <typeData>::decreaseCmp;
+    else
+        cmpSort = &List <typeData>::increaseCmp;
+    
+    for (; cur; cur = cur->getNext())
+    {
+        findData = cur->getData();
+        findPtr = cur;
+        for (curToFind = cur; curToFind; curToFind = curToFind->getNext())
+        {
+            curData = curToFind->getData();
+            if ((this->*cmpSort)(findData, curData))
+            {
+                findData = curData;
+                findPtr = curToFind;
+            }
+        }
+        if (cur != findPtr)
+        {
+            findPtr->setData(cur->getData());
+            cur->setData(findData);
+        }
+    }
 }
