@@ -38,14 +38,74 @@ void List <typeData>::deleteNode(ListNode<typeData> *cur, ListNode<typeData> *tm
 }
 
 template <typename typeData>
-List <typeData>::List() : sizeList(0)
+void List <typeData>::addList(const List& ListToAdd)
 {
-    this->head = nullptr;
+    typeData data = ListToAdd.head->getData();
+    ListNode <typeData>* nextNode = ListToAdd.head->getNext();
+    ListNode <typeData>* nodeToAdd = initNode(data, nextNode);
+    ListNode <typeData> *cur = this->head;
+    
+    if (this->isEmpty())
+    {
+        cur = nodeToAdd;
+        this->head = cur;
+    }
+    else
+    {
+        for (; cur->getNext(); cur = cur->getNext());
+        cur->setNext(nodeToAdd);
+        cur = cur->getNext();
+    }
+    
+    ListNode <typeData> *curToAdd = nextNode;
+    
+    for (; curToAdd; curToAdd = curToAdd->getNext(), cur = cur->getNext())
+    {
+        data = curToAdd->getData();
+        nextNode = curToAdd->getNext();
+        ListNode <typeData>* newNode = initNode(data, nextNode);
+        cur->setNext(newNode);
+    }
 }
 
 template <typename typeData>
-List <typeData>::List(const typeData data, const size_t countData) : sizeList(0)
+bool List <typeData>::increaseCmp(typeData lData, typeData rData) const
 {
+    return (lData > rData);
+}
+
+template <typename typeData>
+bool List <typeData>::decreaseCmp(typeData lData, typeData rData) const
+{
+    return (lData < rData);
+}
+
+template <typename typeData>
+bool List <typeData>::isNodesEqual(const List <typeData>& someList) const
+{
+    ListNode <typeData>* curL = this->head;
+    ListNode <typeData>* curR = someList.head;
+    for (; curL && curR && curL->getData() == curR->getData(); )
+    {
+        curL = curL->getNext();
+        curR = curR->getNext();
+    }
+    
+    return (curL == nullptr && curR == nullptr) ? true : false;
+}
+
+template <typename typeData>
+List <typeData>::List() : sizeList(0), head(nullptr)
+{
+    ;
+}
+
+template <typename typeData>
+List <typeData>::List(const typeData data, const size_t countData) : sizeList(0), head(nullptr)
+{
+    if (countData == 0)
+        return;
+    
     this->head = initNode(data);
     ListNode <typeData> *cur = this->head;
     
@@ -57,26 +117,16 @@ List <typeData>::List(const typeData data, const size_t countData) : sizeList(0)
 }
 
 template <typename typeData>
-List <typeData>::List(const List <typeData>& someList) : sizeList(0)
+List <typeData>::List(const List <typeData>& someList) : sizeList(0), head(nullptr)
 {
-    this->head = nullptr;
     this->extend(someList);
 }
 
 template <typename typeData>
-List <typeData>::List(const typeData* arr, const size_t sizeArr) : sizeList(0)
+List <typeData>::List(List <typeData>&& someList)
 {
-    /*if (arr == nullptr)
-        throw DataError();*/
-    
-    this->head = initNode(arr[0]);
-    ListNode <typeData> *cur = this->head;
-    
-    for (size_t i = 1; i < sizeArr; ++i, cur = cur->getNext())
-    {
-        ListNode <typeData>* newNode = initNode(arr[i]);
-        cur->setNext(newNode);
-    }
+    this->head = someList.head;
+    this->sizeList = someList.sizeList;
 }
 
 template <typename typeData>
@@ -141,31 +191,14 @@ void List <typeData>::extend(const List& ListToAdd)
     if (ListToAdd.isEmpty())
         return;
     
-    typeData data = ListToAdd.head->getData();
-    ListNode <typeData>* nextNode = ListToAdd.head->getNext();
-    ListNode <typeData>* nodeToAdd = initNode(data, nextNode);
-    ListNode <typeData> *cur = this->head;
-    
-    if (this->isEmpty())
+    if (this == &ListToAdd)
     {
-        cur = nodeToAdd;
-        this->head = cur;
+        List <typeData> ListCopy = ListToAdd;
+        addList(ListCopy);
     }
     else
     {
-        for (; cur->getNext(); cur = cur->getNext());
-        cur->setNext(nodeToAdd);
-        cur = cur->getNext();
-    }
-    
-    ListNode <typeData> *curToAdd = nextNode;
-    
-    for (; curToAdd; curToAdd = curToAdd->getNext(), cur = cur->getNext())
-    {
-        data = curToAdd->getData();
-        nextNode = curToAdd->getNext();
-        ListNode <typeData>* newNode = initNode(data, nextNode);
-        cur->setNext(newNode);
+        addList(ListToAdd);
     }
 }
 
@@ -279,18 +312,6 @@ void List <typeData>::reverse()
 }
 
 template <typename typeData>
-bool List <typeData>::increaseCmp(typeData lData, typeData rData) const
-{
-    return (lData > rData);
-}
-
-template <typename typeData>
-bool List <typeData>::decreaseCmp(typeData lData, typeData rData) const
-{
-    return (lData < rData);
-}
-
-template <typename typeData>
 void List <typeData>::sort(bool reverse)
 {
     ListNode <typeData>* cur = this->head;
@@ -324,3 +345,99 @@ void List <typeData>::sort(bool reverse)
         }
     }
 }
+
+template <typename typeData>
+List <typeData>& List <typeData>::operator = (const List& someList)
+{
+    if (this != &someList)
+    {
+        this->clear();
+        this->extend(someList);
+    }
+    
+    return *this;
+}
+
+template <typename typeData>
+List <typeData>& List <typeData>::operator += (const List& someList)
+{
+    this->extend(someList);
+    return *this;
+}
+
+template <typename typeData>
+List <typeData>& List <typeData>::operator += (const typeData dataToAdd)
+{
+    this->append(dataToAdd);
+    return *this;
+}
+
+template <typename typeData>
+List <typeData>& List <typeData>::operator -- ()
+{
+    this->pop();
+    return *this;
+}
+
+template <typename typeData>
+List <typeData>& List <typeData>::operator -- (typeData)
+{
+    this->pop();
+    return *this;
+}
+
+template <typename typeData>
+bool List <typeData>::operator == (const List& someList) const
+{
+    return isNodesEqual(someList);
+}
+
+template <typename typeData>
+bool List <typeData>::operator != (const List& someList) const
+{
+    return !isNodesEqual(someList);
+}
+
+template <typename typeData>
+ListIter <typeData>& List <typeData>::begin()
+{
+    return ListIter <typeData>(this->head);
+}
+
+template <typename typeData>
+ListIter <typeData>& List <typeData>::end()
+{
+    return ListIter <typeData>(this->head + this->sizeList);
+}
+
+template <typename typeData>
+ConstListIter <typeData>& List <typeData>::begin() const
+{
+    return ConstListIter <typeData>(this->head);
+}
+
+template <typename typeData>
+ConstListIter <typeData>& List <typeData>::end() const
+{
+    return ConstListIter <typeData>(this->head + this->sizeList);
+}
+
+/*template <typeData>
+std::ostream& operator<<(std::ostream& os, List <typeData>& list)
+{
+    os << "List: ";
+    iterator_list<C> i(l);
+    if (!i.inRange())
+    {
+        os << "empty";
+        return os;
+    }
+    for (i.first(); i.inRange(); i++)
+    {
+        os << i.current() << " ";
+        
+    }
+    os << "\n";
+    return os;
+    
+}*/

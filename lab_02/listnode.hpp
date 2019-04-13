@@ -19,7 +19,7 @@ public:
     explicit ListNode(const typeData data);
     ListNode(ListNode& node);
     ListNode(const typeData data, ListNode& nextNode);
-    ~ListNode();
+    virtual ~ListNode();
     
     void setData(const typeData data);
     typeData getData() const;

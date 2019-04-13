@@ -11,28 +11,21 @@
 
 #include "errors.hpp"
 #include "listnode.hpp"
+#include "listiterator.cpp"
+#include "listiteratorconst.cpp"
 #include <iostream>
 
 template <typename typeData>
 class List
 {
-private:
-    size_t sizeList;
-    ListNode <typeData>* head;
-    
-    ListNode <typeData>* initNode(typeData data, ListNode <typeData>* ptrNode = nullptr);
-    void deleteNode(ListNode <typeData>* cur, ListNode <typeData>* tmp);
-    bool increaseCmp(typeData lData, typeData rData) const;
-    bool decreaseCmp(typeData lData, typeData rData) const;
-    
 public:
     List();
     List(const typeData data, const size_t countData = 1);
-    explicit List(const List& someList);
-    List(const typeData* arr, const size_t sizeArr);
+    List(const List& someList);
+    List(List&& someList);
     virtual ~List();
     
-    void showList()
+    void showList() const
     {
         if (this->head == nullptr)
         {
@@ -61,6 +54,30 @@ public:
     
     void reverse();
     void sort(bool reverse = false);
+    
+    List& operator = (const List& someList);
+    List& operator += (const List& someList);
+    List& operator += (const typeData dataToAdd);
+    List& operator -- ();
+    List& operator -- (typeData);
+    
+    bool operator == (const List& someList) const;
+    bool operator != (const List& someList) const;
+    
+    ListIter <typeData>& begin();
+    ListIter <typeData>& end();
+    ConstListIter <typeData>& begin() const;
+    ConstListIter <typeData>& end() const;
+private:
+    size_t sizeList;
+    ListNode <typeData>* head;
+    
+    ListNode <typeData>* initNode(typeData data, ListNode <typeData>* ptrNode = nullptr);
+    void deleteNode(ListNode <typeData>* cur, ListNode <typeData>* tmp);
+    void addList(const List& ListToAdd);
+    bool increaseCmp(typeData lData, typeData rData) const;
+    bool decreaseCmp(typeData lData, typeData rData) const;
+    bool isNodesEqual(const List& someList) const;
 protected:
 };
 

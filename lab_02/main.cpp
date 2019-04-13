@@ -33,8 +33,7 @@ int main()
     
     List <int> list0;
     List <int> list1(list0);
-    int arr[10] = { 1, 2, 3, 4 };
-    List <int> list2(arr, 10);
+    List <int> list2(10, 10);
     List <int> list3(10);
     List <int> list4(10, 10);
     list4.append(10);
@@ -76,6 +75,43 @@ int main()
     list9.showList();
     list9.sort(true);
     list9.showList();
+    
+    List <int> list10(list8);
+    list10.showList();
+    list10 = list9;
+    list10.showList();
+    list10 += list8;
+    list10.showList();
+    if (list10 == list10)
+        cout << "Equal" << endl;
+    else
+        cout << "Not Equal" << endl;
+    if (list10 == list9)
+        cout << "Equal" << endl;
+    else
+        cout << "Not Equal" << endl;
+    list10 += 10;
+    list10.showList();
+    --list10;
+    list10.showList();
+    list10 += 10;
+    list10.showList();
+    list10--;
+    list10.showList();
+    list10 += list10;
+    list10.showList();
+    list10 = list10;
+    list10.showList();
+    
+    List <int> list11 = list10;
+    list11.showList();
+    list11 = list10;
+    list11.showList();
+    
+    List <int> list12(10, 0);
+    list12.showList();
+    
+    // cout << list12 << endl;
     
     /*List <int> list5(list3);
     list5.showList();
