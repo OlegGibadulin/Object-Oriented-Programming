@@ -9,7 +9,7 @@
 #ifndef listiteratorconst_hpp
 #define listiteratorconst_hpp
 
-#include "listiteratorbase.hpp"
+#include "listiteratorbase.cpp"
 
 template <typename typeData>
 class ConstListIter
@@ -19,11 +19,8 @@ public:
     ConstListIter(const ConstListIter& ClistIter);
     ConstListIter(const ListNode <typeData>& node);
     
-    void next();
-    bool isInRange();
-    typeData getCur();
-private:
-    ListNode <typeData>* ptrCur;
+    const ConstListIter& operator * () const;
+    const ConstListIter& operator -> () const;
 };
 
 #endif /* listiteratorconst_hpp */

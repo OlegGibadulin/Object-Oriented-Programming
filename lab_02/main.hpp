@@ -15,8 +15,8 @@ using namespace std;
 
 #include "listnode.cpp"
 #include "list.cpp"
-#include "listiterator.hpp"
-#include "listiteratorconst.hpp"
+#include "listiterator.cpp"
+#include "listiteratorconst.cpp"
 #include "errors.hpp"
 
 #endif /* main_hpp */

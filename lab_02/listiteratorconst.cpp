@@ -28,19 +28,13 @@ ConstListIter <typeData>::ConstListIter(const ListNode <typeData>& node)
 }
 
 template <typename typeData>
-void ListIterBase <typeData>::next()
+const ConstListIter <typeData>& ConstListIter <typeData>::operator * () const
 {
-    this->curPtr = this->curPtr->getNext();
+    return *this->ptrCur;
 }
 
 template <typename typeData>
-bool ListIterBase <typeData>::isInRange()
+const ConstListIter <typeData>& ConstListIter <typeData>::operator -> () const
 {
-    return (this->ptrCur == nullptr) ? false : true;
-}
-
-template <typename typeData>
-typeData ListIterBase <typeData>::getCur()
-{
-    return this->ptrCur->getData;
+    return this->ptrCur;
 }

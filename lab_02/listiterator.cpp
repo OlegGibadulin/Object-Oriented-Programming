@@ -9,13 +9,31 @@
 #include "listiterator.hpp"
 
 template <typename typeData>
-ListIter <typeData>& ListIter <typeData>::operator * ()
+ListIter <typeData>::ListIter()
 {
-    return *this->ptr;
+    this->ptrCur = nullptr;
 }
 
 template <typename typeData>
-ListIter <typeData>& ListIter <typeData>::operator -> ()
+ListIter <typeData>::ListIter(const ListIter <typeData>& listIter)
 {
-    return this->ptr;
+    this->ptrCur = listIter.ptrCur;
+}
+
+template <typename typeData>
+ListIter <typeData>::ListIter(const ListNode <typeData>& node)
+{
+    this->ptrCur = node;
+}
+
+template <typename typeData>
+ListIter <typeData>& ListIter <typeData>::operator * () const
+{
+    return *this->ptrCur;
+}
+
+template <typename typeData>
+ListIter <typeData>& ListIter <typeData>::operator -> () const
+{
+    return this->ptrCur;
 }

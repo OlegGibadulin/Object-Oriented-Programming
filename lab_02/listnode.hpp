@@ -13,12 +13,11 @@ template <typename typeData>
 class ListNode
 {
 public:
-    // template <typename typeList> friend class List;
-    
     ListNode();
     explicit ListNode(const typeData data);
     ListNode(ListNode& node);
     ListNode(const typeData data, ListNode& nextNode);
+    
     virtual ~ListNode();
     
     void setData(const typeData data);

@@ -384,47 +384,32 @@ bool List <typeData>::operator != (const List& someList) const
     return !isNodesEqual(someList);
 }
 
-/*template <typename typeData>
-ListIter <typeData>& List <typeData>::begin()
+template <typename typeData>
+void List <typeData>::begin(ListIterBase <typeData>& iter)
 {
-    std::cout << this->head->getData() <<  "!" << std::endl;
-    ListIterBase <typeData> tmp(*this->head);
-    return tmp;
-    return ListIter <typeData>(*this->head);
+    iter = *this->head;
 }
 
 template <typename typeData>
-ListIter <typeData>& List <typeData>::end()
+void List <typeData>::end(ListIterBase <typeData>& iter)
 {
-    return ListIter <typeData>(this->head + this->sizeList);
+    ListNode <typeData>* cur = this->head;
+    for (; cur->getNext(); cur = cur->getNext());
+    iter = *cur;
 }
 
 template <typename typeData>
-ConstListIter <typeData>& List <typeData>::begin() const
+void List <typeData>::begin(ListIterBase <typeData>& iter) const
 {
-    ConstListIter <typeData> tmp = this->head;
-    return ConstListIter <typeData>(this->head);
+    iter = *this->head;
 }
 
 template <typename typeData>
-ConstListIter <typeData>& List <typeData>::end() const
+void List <typeData>::end(ListIterBase <typeData>& iter) const
 {
-    return ConstListIter <typeData>(this->head + this->sizeList);
-}*/
-
-template <typename typeData>
-ListIterBase <typeData>& List <typeData>::begin1()
-{
-    std::cout << this->head->getData() <<  "!" << std::endl;
-    ListIterBase <typeData> tmp(*this->head);
-    return tmp;
-}
-
-template <typename typeData>
-ListIterBase <typeData>& List <typeData>::end1()
-{
-    ListIterBase <typeData> tmp(this->head + this->sizeList);
-    return tmp;
+    ListNode <typeData>* cur = this->head;
+    for (; cur->getNext(); cur = cur->getNext());
+    iter = *cur;
 }
 
 template <typename typeData>
@@ -432,7 +417,8 @@ std::ostream& operator<<(std::ostream& stream, List <typeData>& list)
 {
     stream << "List";
     
-    ListIterBase <typeData> iter = list.begin1();
+    ListIterBase <typeData> iter;
+    list.begin(iter);
     
     if (!iter.isInRange())
     {
@@ -444,7 +430,6 @@ std::ostream& operator<<(std::ostream& stream, List <typeData>& list)
         for (; iter.isInRange(); iter.next())
             stream << iter.getCur() << " ";
     }
-    stream << "\n";
     
     return stream;
 }

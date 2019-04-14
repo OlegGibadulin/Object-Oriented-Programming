@@ -9,17 +9,18 @@
 #ifndef listiterator_hpp
 #define listiterator_hpp
 
-#include "listiteratorbase.hpp"
+#include "listiteratorbase.cpp"
 
 template <typename typeData>
 class ListIter : public ListIterBase <typeData>
 {
 public:
+    ListIter();
     ListIter(const ListIter& listIter);
-    // ListIter(const ListNode <typeData>& node);
+    ListIter(const ListNode <typeData>& node);
     
-    ListIter& operator * ();
-    ListIter& operator -> ();
+    ListIter& operator * () const;
+    ListIter& operator -> () const;
 };
 
 #endif /* listiterator_hpp */

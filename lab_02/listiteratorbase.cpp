@@ -11,7 +11,7 @@
 template <typename typeData>
 ListIterBase <typeData>::ListIterBase()
 {
-    this->ptr = nullptr;
+    this->ptrCur = nullptr;
 }
 
 template <typename typeData>
@@ -29,7 +29,7 @@ ListIterBase <typeData>::ListIterBase(ListNode <typeData>& node)
 template <typename typeData>
 void ListIterBase <typeData>::next()
 {
-    this->ptrCur = this->ptrCur->getNext();
+    ptrCur = ptrCur->getNext();
 }
 
 template <typename typeData>
@@ -41,7 +41,7 @@ bool ListIterBase <typeData>::isInRange()
 template <typename typeData>
 typeData ListIterBase <typeData>::getCur()
 {
-    return this->ptrCur->getData();
+    return ptrCur->getData();
 }
 
 template <typename typeData>
@@ -51,11 +51,18 @@ ListIterBase <typeData>::~ListIterBase()
 }
 
 template <typename typeData>
-ListIterBase <typeData>& ListIterBase <typeData>::operator = (const ListIterBase& listIter)
+ListIterBase <typeData>& ListIterBase <typeData>::operator = (ListIterBase& listIter)
 {
     if (this != &listIter)
-        this->ptrCur = listIter->ptrCur;
+        this->ptrCur = listIter.ptrCur;
     
+    return *this;
+}
+
+template <typename typeData>
+ListIterBase <typeData>& ListIterBase <typeData>::operator = (ListNode <typeData>& node)
+{
+    this->ptrCur = &node;
     return *this;
 }
 

@@ -16,8 +16,8 @@ class ListIterBase
 {
 public:
     ListIterBase();
-    ListIterBase(ListIterBase& listIter);
-    ListIterBase(ListNode <typeData>& node);
+    explicit ListIterBase(ListIterBase& listIter);
+    explicit ListIterBase(ListNode <typeData>& node);
     
     virtual ~ListIterBase();
     
@@ -25,13 +25,13 @@ public:
     bool isInRange();
     typeData getCur();
     
-    ListIterBase& operator = (const ListIterBase& listIter);
+    ListIterBase& operator = (ListIterBase& listIter);
+    ListIterBase& operator = (ListNode <typeData>& node);
     ListIterBase& operator ++ ();
     ListIterBase& operator ++ (int);
     
     bool operator == (const ListIterBase& listIter) const;
     bool operator != (const ListIterBase& listIter) const;
-private:
 protected:
     ListNode <typeData>* ptrCur;
 };

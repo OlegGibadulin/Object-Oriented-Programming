@@ -13,7 +13,6 @@
 #include "listnode.hpp"
 #include "listiterator.hpp"
 #include "listiteratorconst.hpp"
-#include "listiteratorbase.cpp"
 #include <iostream>
 
 template <typename typeData>
@@ -63,13 +62,10 @@ public:
     bool operator == (const List& someList) const;
     bool operator != (const List& someList) const;
     
-    ListIter <typeData>& begin();
-    ListIter <typeData>& end();
-    ConstListIter <typeData>& begin() const;
-    ConstListIter <typeData>& end() const;
-    
-    ListIterBase <typeData>& begin1();
-    ListIterBase <typeData>& end1();
+    void begin(ListIterBase <typeData>& iter);
+    void end(ListIterBase <typeData>& iter);
+    void begin(ListIterBase <typeData>& iter) const;
+    void end(ListIterBase <typeData>& iter) const;
 private:
     size_t sizeList;
     ListNode <typeData>* head;
