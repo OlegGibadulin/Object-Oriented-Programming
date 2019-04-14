@@ -385,13 +385,13 @@ bool List <typeData>::operator != (const List& someList) const
 }
 
 template <typename typeData>
-void List <typeData>::begin(ListIterBase <typeData>& iter)
+void List <typeData>::begin(ListIter <typeData>& iter)
 {
     iter = *this->head;
 }
 
 template <typename typeData>
-void List <typeData>::end(ListIterBase <typeData>& iter)
+void List <typeData>::end(ListIter <typeData>& iter)
 {
     ListNode <typeData>* cur = this->head;
     for (; cur->getNext(); cur = cur->getNext());
@@ -399,13 +399,13 @@ void List <typeData>::end(ListIterBase <typeData>& iter)
 }
 
 template <typename typeData>
-void List <typeData>::begin(ListIterBase <typeData>& iter) const
+void List <typeData>::begin(ConstListIter <typeData>& iter) const
 {
     iter = *this->head;
 }
 
 template <typename typeData>
-void List <typeData>::end(ListIterBase <typeData>& iter) const
+void List <typeData>::end(ConstListIter <typeData>& iter) const
 {
     ListNode <typeData>* cur = this->head;
     for (; cur->getNext(); cur = cur->getNext());
@@ -417,7 +417,7 @@ std::ostream& operator<<(std::ostream& stream, List <typeData>& list)
 {
     stream << "List";
     
-    ListIterBase <typeData> iter;
+    ListIter <typeData> iter;
     list.begin(iter);
     
     if (!iter.isInRange())

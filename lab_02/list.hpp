@@ -12,7 +12,6 @@
 #include "errors.hpp"
 #include "listnode.hpp"
 #include "listiterator.hpp"
-#include "listiteratorconst.hpp"
 #include <iostream>
 
 template <typename typeData>
@@ -23,19 +22,6 @@ public:
     List(const typeData data, const size_t countData = 1);
     List(const List& someList);
     virtual ~List();
-    
-    void showList() const
-    {
-        if (this->head == nullptr)
-        {
-            std::cout << "nullptr" << std::endl;
-            return;
-        }
-        ListNode <typeData>* cur = this->head;
-        for (; cur; cur = cur->getNext())
-            std::cout << cur->getData() << " ";
-        std::cout << "\n";
-    }
     
     size_t size() const;
     bool isEmpty() const;
@@ -62,10 +48,10 @@ public:
     bool operator == (const List& someList) const;
     bool operator != (const List& someList) const;
     
-    void begin(ListIterBase <typeData>& iter);
-    void end(ListIterBase <typeData>& iter);
-    void begin(ListIterBase <typeData>& iter) const;
-    void end(ListIterBase <typeData>& iter) const;
+    void begin(ListIter <typeData>& iter);
+    void end(ListIter <typeData>& iter);
+    void begin(ConstListIter <typeData>& iter) const;
+    void end(ConstListIter <typeData>& iter) const;
 private:
     size_t sizeList;
     ListNode <typeData>* head;

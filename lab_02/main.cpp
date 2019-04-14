@@ -31,7 +31,7 @@ int main()
     if (E == D)
         cout << "!" << endl;*/
     
-    List <int> list0;
+    /*List <int> list0;
     List <int> list1(list0);
     List <int> list2(10, 10);
     List <int> list3(10);
@@ -118,7 +118,7 @@ int main()
     list12.append(13);
     list12.showList();
     
-    cout << list12 << endl;
+    cout << list12 << endl;*/
     
     /*List <int> list5(list3);
     list5.showList();
