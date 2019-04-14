@@ -12,7 +12,9 @@
 #include "errors.hpp"
 #include "listnode.hpp"
 #include "listiterator.hpp"
+
 #include <iostream>
+#include <stdarg.h>
 
 template <typename typeData>
 class List
@@ -21,6 +23,7 @@ public:
     List();
     List(const typeData data, const size_t countData = 1);
     List(const List& someList);
+    List(size_t countNodes, ...);
     virtual ~List();
     
     size_t size() const;

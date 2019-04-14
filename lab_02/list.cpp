@@ -123,6 +123,23 @@ List <typeData>::List(const List <typeData>& someList) : sizeList(0), head(nullp
 }
 
 template <typename typeData>
+List <typeData>::List(size_t countNodes, ...) : sizeList(countNodes), head(nullptr)
+{
+    va_list vlist;
+    va_start(vlist, countNodes);
+    
+    typeData tmp;
+    
+    for (; countNodes; --countNodes)
+    {
+        tmp = va_arg(vlist, typeData);
+        this->append(tmp);
+    }
+    
+    va_end(vlist);
+}
+
+template <typename typeData>
 List <typeData>::~List()
 {
     this->clear();
@@ -426,9 +443,9 @@ std::ostream& operator<<(std::ostream& stream, List <typeData>& list)
     }
     else
     {
-        stream << ": ";
+        stream << ":";
         for (; iter.isInRange(); iter.next())
-            stream << iter.getCur() << " ";
+            stream << " " << iter.getCur();
     }
     
     return stream;

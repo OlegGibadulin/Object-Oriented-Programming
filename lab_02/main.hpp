@@ -14,6 +14,8 @@
 using namespace std;
 
 #include "list.cpp"
+#include "listnode.cpp"
+#include "listiterator.cpp"
 #include "errors.hpp"
 
 #endif /* main_hpp */

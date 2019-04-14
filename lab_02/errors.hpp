@@ -41,14 +41,6 @@ class RangeError : public ErrorBase
     }
 };
 
-class CompareError : public ErrorBase
-{
-    const char* what() const throw()
-    {
-        return "Elements of list are incomparable";
-    }
-};
-
 class ValueError : public ErrorBase
 {
     const char* what() const throw()

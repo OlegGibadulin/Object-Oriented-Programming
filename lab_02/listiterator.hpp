@@ -18,7 +18,6 @@ public:
     ListIterBase();
     explicit ListIterBase(ListIterBase& listIter);
     explicit ListIterBase(ListNode <typeData>& node);
-    
     virtual ~ListIterBase();
     
     void next();
