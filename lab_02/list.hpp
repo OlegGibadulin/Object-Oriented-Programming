@@ -11,8 +11,9 @@
 
 #include "errors.hpp"
 #include "listnode.hpp"
-#include "listiterator.cpp"
-#include "listiteratorconst.cpp"
+#include "listiterator.hpp"
+#include "listiteratorconst.hpp"
+#include "listiteratorbase.cpp"
 #include <iostream>
 
 template <typename typeData>
@@ -22,7 +23,6 @@ public:
     List();
     List(const typeData data, const size_t countData = 1);
     List(const List& someList);
-    List(List&& someList);
     virtual ~List();
     
     void showList() const
@@ -58,8 +58,7 @@ public:
     List& operator = (const List& someList);
     List& operator += (const List& someList);
     List& operator += (const typeData dataToAdd);
-    List& operator -- ();
-    List& operator -- (typeData);
+    List& operator -= (const typeData dataToAdd);
     
     bool operator == (const List& someList) const;
     bool operator != (const List& someList) const;
@@ -68,6 +67,9 @@ public:
     ListIter <typeData>& end();
     ConstListIter <typeData>& begin() const;
     ConstListIter <typeData>& end() const;
+    
+    ListIterBase <typeData>& begin1();
+    ListIterBase <typeData>& end1();
 private:
     size_t sizeList;
     ListNode <typeData>* head;

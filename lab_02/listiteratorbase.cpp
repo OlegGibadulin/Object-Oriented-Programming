@@ -15,52 +15,46 @@ ListIterBase <typeData>::ListIterBase()
 }
 
 template <typename typeData>
-ListIterBase <typeData>::ListIterBase(const ListIterBase <typeData>& listIter)
+ListIterBase <typeData>::ListIterBase(ListIterBase <typeData>& listIter)
 {
-    this->ptr = listIter->ptr;
+    this->ptrCur = listIter.ptrCur;
 }
 
 template <typename typeData>
-ListIterBase <typeData>::ListIterBase(const typeData* ptr)
+ListIterBase <typeData>::ListIterBase(ListNode <typeData>& node)
 {
-    this->ptr = ptr;
-}
-
-template <typename typeData>
-void ListIterBase <typeData>::begin()
-{
-    ;
-}
-
-template <typename typeData>
-void ListIterBase <typeData>::end()
-{
-    ;
+    this->ptrCur = &node;
 }
 
 template <typename typeData>
 void ListIterBase <typeData>::next()
 {
-    ;
+    this->ptrCur = this->ptrCur->getNext();
 }
 
 template <typename typeData>
-void ListIterBase <typeData>::isInRange()
+bool ListIterBase <typeData>::isInRange()
 {
-    ;
+    return (this->ptrCur == nullptr) ? false : true;
+}
+
+template <typename typeData>
+typeData ListIterBase <typeData>::getCur()
+{
+    return this->ptrCur->getData();
 }
 
 template <typename typeData>
 ListIterBase <typeData>::~ListIterBase()
 {
-    this->ptr = nullptr;
+    this->ptrCur = nullptr;
 }
 
 template <typename typeData>
 ListIterBase <typeData>& ListIterBase <typeData>::operator = (const ListIterBase& listIter)
 {
     if (this != &listIter)
-        this->ptr = listIter->ptr;
+        this->ptrCur = listIter->ptrCur;
     
     return *this;
 }
@@ -68,7 +62,7 @@ ListIterBase <typeData>& ListIterBase <typeData>::operator = (const ListIterBase
 template <typename typeData>
 ListIterBase <typeData>& ListIterBase <typeData>::operator ++ ()
 {
-    ++(this->ptr);
+    this->next();
     return *this;
 }
 
@@ -76,33 +70,18 @@ template <typename typeData>
 ListIterBase <typeData>& ListIterBase <typeData>::operator ++ (int)
 {
     ListIterBase <typeData> tmp(this);
-    this->operator++();
-    return tmp;
-}
-
-template <typename typeData>
-ListIterBase <typeData>& ListIterBase <typeData>::operator -- ()
-{
-    --(this->ptr);
-    return *this;
-}
-
-template <typename typeData>
-ListIterBase <typeData>& ListIterBase <typeData>::operator -- (int)
-{
-    ListIterBase <typeData> tmp(this);
-    this->operator--();
+    this->next();
     return tmp;
 }
 
 template <typename typeData>
 bool ListIterBase <typeData>::operator == (const ListIterBase <typeData>& listIter) const
 {
-    return this->ptr == listIter.ptr;
+    return this->ptrCur == listIter.ptrCur;
 }
 
 template <typename typeData>
 bool ListIterBase <typeData>::operator != (const ListIterBase <typeData>& listIter) const
 {
-    return this->ptr != listIter.ptr;
+    return this->ptrCur != listIter.ptrCur;
 }

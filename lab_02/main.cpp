@@ -92,11 +92,11 @@ int main()
         cout << "Not Equal" << endl;
     list10 += 10;
     list10.showList();
-    --list10;
+    list10 -= 1;
     list10.showList();
     list10 += 10;
     list10.showList();
-    list10--;
+    list10 -= 1;
     list10.showList();
     list10 += list10;
     list10.showList();
@@ -110,8 +110,15 @@ int main()
     
     List <int> list12(10, 0);
     list12.showList();
+    list12 = list11;
+    list12.showList();
+    list12.clear();
+    list12.append(11);
+    list12.append(12);
+    list12.append(13);
+    list12.showList();
     
-    // cout << list12 << endl;
+    cout << list12 << endl;
     
     /*List <int> list5(list3);
     list5.showList();

@@ -12,9 +12,18 @@
 #include "listiteratorbase.hpp"
 
 template <typename typeData>
-class ConstListIter : public ListIterBase <typeData>
+class ConstListIter
 {
+public:
+    ConstListIter();
     ConstListIter(const ConstListIter& ClistIter);
+    ConstListIter(const ListNode <typeData>& node);
+    
+    void next();
+    bool isInRange();
+    typeData getCur();
+private:
+    ListNode <typeData>* ptrCur;
 };
 
 #endif /* listiteratorconst_hpp */

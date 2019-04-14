@@ -123,13 +123,6 @@ List <typeData>::List(const List <typeData>& someList) : sizeList(0), head(nullp
 }
 
 template <typename typeData>
-List <typeData>::List(List <typeData>&& someList)
-{
-    this->head = someList.head;
-    this->sizeList = someList.sizeList;
-}
-
-template <typename typeData>
 List <typeData>::~List()
 {
     this->clear();
@@ -373,14 +366,7 @@ List <typeData>& List <typeData>::operator += (const typeData dataToAdd)
 }
 
 template <typename typeData>
-List <typeData>& List <typeData>::operator -- ()
-{
-    this->pop();
-    return *this;
-}
-
-template <typename typeData>
-List <typeData>& List <typeData>::operator -- (typeData)
+List <typeData>& List <typeData>::operator -= (const typeData dataToAdd)
 {
     this->pop();
     return *this;
@@ -398,10 +384,13 @@ bool List <typeData>::operator != (const List& someList) const
     return !isNodesEqual(someList);
 }
 
-template <typename typeData>
+/*template <typename typeData>
 ListIter <typeData>& List <typeData>::begin()
 {
-    return ListIter <typeData>(this->head);
+    std::cout << this->head->getData() <<  "!" << std::endl;
+    ListIterBase <typeData> tmp(*this->head);
+    return tmp;
+    return ListIter <typeData>(*this->head);
 }
 
 template <typename typeData>
@@ -413,6 +402,7 @@ ListIter <typeData>& List <typeData>::end()
 template <typename typeData>
 ConstListIter <typeData>& List <typeData>::begin() const
 {
+    ConstListIter <typeData> tmp = this->head;
     return ConstListIter <typeData>(this->head);
 }
 
@@ -420,24 +410,41 @@ template <typename typeData>
 ConstListIter <typeData>& List <typeData>::end() const
 {
     return ConstListIter <typeData>(this->head + this->sizeList);
+}*/
+
+template <typename typeData>
+ListIterBase <typeData>& List <typeData>::begin1()
+{
+    std::cout << this->head->getData() <<  "!" << std::endl;
+    ListIterBase <typeData> tmp(*this->head);
+    return tmp;
 }
 
-/*template <typeData>
-std::ostream& operator<<(std::ostream& os, List <typeData>& list)
+template <typename typeData>
+ListIterBase <typeData>& List <typeData>::end1()
 {
-    os << "List: ";
-    iterator_list<C> i(l);
-    if (!i.inRange())
-    {
-        os << "empty";
-        return os;
-    }
-    for (i.first(); i.inRange(); i++)
-    {
-        os << i.current() << " ";
-        
-    }
-    os << "\n";
-    return os;
+    ListIterBase <typeData> tmp(this->head + this->sizeList);
+    return tmp;
+}
+
+template <typename typeData>
+std::ostream& operator<<(std::ostream& stream, List <typeData>& list)
+{
+    stream << "List";
     
-}*/
+    ListIterBase <typeData> iter = list.begin1();
+    
+    if (!iter.isInRange())
+    {
+        stream << " is empty";
+    }
+    else
+    {
+        stream << ": ";
+        for (; iter.isInRange(); iter.next())
+            stream << iter.getCur() << " ";
+    }
+    stream << "\n";
+    
+    return stream;
+}

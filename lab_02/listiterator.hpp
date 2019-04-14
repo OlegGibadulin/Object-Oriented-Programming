@@ -14,7 +14,9 @@
 template <typename typeData>
 class ListIter : public ListIterBase <typeData>
 {
+public:
     ListIter(const ListIter& listIter);
+    // ListIter(const ListNode <typeData>& node);
     
     ListIter& operator * ();
     ListIter& operator -> ();

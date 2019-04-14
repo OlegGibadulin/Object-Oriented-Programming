@@ -9,31 +9,31 @@
 #ifndef listiteratorbase_hpp
 #define listiteratorbase_hpp
 
+#include "listnode.hpp"
+
 template <typename typeData>
 class ListIterBase
 {
 public:
     ListIterBase();
-    ListIterBase(const ListIterBase& listIter);
-    ListIterBase(const typeData* ptr);
-    ~ListIterBase();
+    ListIterBase(ListIterBase& listIter);
+    ListIterBase(ListNode <typeData>& node);
     
-    void begin();
-    void end();
+    virtual ~ListIterBase();
+    
     void next();
-    void isInRange();
+    bool isInRange();
+    typeData getCur();
     
     ListIterBase& operator = (const ListIterBase& listIter);
     ListIterBase& operator ++ ();
     ListIterBase& operator ++ (int);
-    ListIterBase& operator -- ();
-    ListIterBase& operator -- (int);
     
     bool operator == (const ListIterBase& listIter) const;
     bool operator != (const ListIterBase& listIter) const;
 private:
 protected:
-    typeData* ptr;
+    ListNode <typeData>* ptrCur;
 };
 
 #endif /* listiteratorbase_hpp */
