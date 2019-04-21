@@ -1,5 +1,5 @@
 //
-//  listiterator.hpp
+//  listiterator.cpp
 //  lab_02
 //
 //  Created by Mac-HOME on 13/04/2019.
@@ -9,59 +9,177 @@
 #ifndef listiterator_hpp
 #define listiterator_hpp
 
-#include "listnode.hpp"
+#include "listiterator.h"
 
 template <typename typeData>
-class ListIterBase
+ListIterBase <typeData>::ListIterBase()
 {
-public:
-    ListIterBase();
-    explicit ListIterBase(ListIterBase& listIter);
-    explicit ListIterBase(ListNode <typeData>& node);
-    virtual ~ListIterBase();
-    
-    void next();
-    bool isInRange() const;
-    
-    ListIterBase& operator ++ ();
-    ListIterBase& operator ++ (int);
-    
-    bool operator == (const ListIterBase& listIter) const;
-    bool operator != (const ListIterBase& listIter) const;
-protected:
-    ListNode <typeData>* ptrCur;
-};
+    this->ptrCur = nullptr;
+}
 
 template <typename typeData>
-class ListIter : public ListIterBase <typeData>
+ListIterBase <typeData>::ListIterBase(ListIterBase <typeData>& listIter)
 {
-public:
-    ListIter();
-    ListIter(const ListIter& listIter);
-    ListIter(const ListNode <typeData>& node);
-    
-    ListIter& operator = (ListIter& listIter);
-    ListIter& operator = (ListNode <typeData>& node);
-    
-    typeData getCur() const;
-    ListIter& operator * () const;
-    ListIter& operator -> () const;
-};
+    this->ptrCur = listIter.ptrCur;
+}
 
 template <typename typeData>
-class ConstListIter : public ListIterBase <typeData>
+ListIterBase <typeData>::ListIterBase(ListNode <typeData>& node)
 {
-public:
-    ConstListIter();
-    ConstListIter(const ConstListIter& ClistIter);
-    ConstListIter(const ListNode <typeData>& node);
+    this->ptrCur = &node;
+}
+
+template <typename typeData>
+void ListIterBase <typeData>::next()
+{
+    ptrCur = this->ptrCur->getNext();
+}
+
+template <typename typeData>
+bool ListIterBase <typeData>::isInRange() const
+{
+    return (this->ptrCur == nullptr) ? false : true;
+}
+
+template <typename typeData>
+ListIterBase <typeData>::~ListIterBase()
+{
+    this->ptrCur = nullptr;
+}
+
+template <typename typeData>
+ListIterBase <typeData>& ListIterBase <typeData>::operator ++ ()
+{
+    this->next();
+    return *this;
+}
+
+template <typename typeData>
+ListIterBase <typeData> ListIterBase <typeData>::operator ++ (int)
+{
+    ListIterBase <typeData> tmp(this);
+    this->next();
+    return tmp;
+}
+
+template <typename typeData>
+bool ListIterBase <typeData>::operator == (const ListIterBase <typeData>& listIter) const
+{
+    return this->ptrCur == listIter.ptrCur;
+}
+
+template <typename typeData>
+bool ListIterBase <typeData>::operator != (const ListIterBase <typeData>& listIter) const
+{
+    return this->ptrCur != listIter.ptrCur;
+}
+
+// ListIter
+
+template <typename typeData>
+ListIter <typeData>::ListIter()
+{
+    this->ptrCur = nullptr;
+}
+
+template <typename typeData>
+ListIter <typeData>::ListIter(const ListIter <typeData>& listIter)
+{
+    this->ptrCur = listIter.ptrCur;
+}
+
+template <typename typeData>
+ListIter <typeData>::ListIter(const ListNode <typeData>& node)
+{
+    this->ptrCur = node;
+}
+
+template <typename typeData>
+ListIter <typeData>& ListIter <typeData>::operator = (ListIter& listIter)
+{
+    if (this != &listIter)
+        this->ptrCur = listIter.ptrCur;
     
-    ConstListIter& operator = (ConstListIter& listIter);
-    ConstListIter& operator = (ListNode <typeData>& node);
+    return *this;
+}
+
+template <typename typeData>
+ListIter <typeData>& ListIter <typeData>::operator = (ListNode <typeData>& node)
+{
+    this->ptrCur = &node;
+    return *this;
+}
+
+template <typename typeData>
+typeData ListIter <typeData>::getCur() const
+{
+    return this->ptrCur->getData();
+}
+
+template <typename typeData>
+typeData& ListIter <typeData>::operator * () const
+{
+    return *this->ptrCur->getData();
+}
+
+template <typename typeData>
+typeData* ListIter <typeData>::operator -> () const
+{
+    return this->ptrCur->getCur();
+}
+
+// ConstListIter
+
+template <typename typeData>
+ConstListIter <typeData>::ConstListIter()
+{
+    this->ptrCur = nullptr;
+}
+
+template <typename typeData>
+ConstListIter <typeData>::ConstListIter(const ConstListIter <typeData>& ClistIter)
+{
+    this->ptrCur = ClistIter.ptrCur;
+}
+
+template <typename typeData>
+ConstListIter <typeData>::ConstListIter(const ListNode <typeData>& node)
+{
+    this->ptrCur = node;
+}
+
+template <typename typeData>
+ConstListIter <typeData>& ConstListIter <typeData>::operator = (ConstListIter& listIter)
+{
+    if (this != &listIter)
+        this->ptrCur = listIter.ptrCur;
     
-    const typeData getCur() const;
-    const ConstListIter& operator * () const;
-    const ConstListIter& operator -> () const;
-};
+    return *this;
+}
+
+template <typename typeData>
+ConstListIter <typeData>& ConstListIter <typeData>::operator = (ListNode <typeData>& node)
+{
+    this->ptrCur = &node;
+    return *this;
+}
+
+template <typename typeData>
+const typeData ConstListIter <typeData>::getCur() const
+{
+    return this->ptrCur->getData();
+}
+
+template <typename typeData>
+const ConstListIter <typeData>& ConstListIter <typeData>::operator * () const
+{
+    return *this->ptrCur;
+}
+
+template <typename typeData>
+const ConstListIter <typeData>& ConstListIter <typeData>::operator -> () const
+{
+    return this->ptrCur;
+}
 
 #endif /* listiterator_hpp */

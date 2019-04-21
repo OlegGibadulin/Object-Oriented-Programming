@@ -12,11 +12,21 @@ int main()
 {
     cout << "Тестировние списка одностороннего доступа" << endl;
     
+    /*List <int> list0(5, 0, 1, 2, 3, 4);
+    List <int> list1(list0);
+    List <int> list2 = {0, 1, 2, 3, 4};
+    int a = 10;
+    List <int> list3 = {a};*/
+    
     try
     {
         cout << "\n\nКонстуркторы" << endl;
         
-        List <int> list0;
+        int a = 10;
+        List <int> list3 = {a};
+        list3.clear();
+        
+        /*List <int> list0;
         List <int> list1(0, 10);
         List <int> list2(list1);
         List <double> list3(3, 0.1, 0.2, 0.4);
@@ -124,9 +134,9 @@ int main()
         cout << list7 << endl;
         
         list7.clear();
-        list7.pop();
+        list7.pop();*/
     }
-    catch(std::exception& error)
+    catch(ErrorBase& error)
     {
         cout << error.what() << endl;
     }
