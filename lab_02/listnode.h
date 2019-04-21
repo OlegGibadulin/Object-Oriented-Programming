@@ -14,16 +14,16 @@ class ListNode
 {
 public:
     ListNode();
-    explicit ListNode(const typeData dataToAdd);
-    ListNode(ListNode<typeData>& node);
-    ListNode(const typeData data, ListNode<typeData>& nextNode);
+    explicit ListNode(const typeData data);
+    explicit ListNode(const ListNode<typeData>& node);
+    ListNode(const typeData data, ListNode<typeData>* nextNode);
     virtual ~ListNode();
     
     void setData(const typeData data);
     typeData getData() const;
     
     void setNext(ListNode<typeData>* nextNode);
-    ListNode* getNext();
+    ListNode<typeData>* getNext() const;
     
     bool operator==(const ListNode<typeData>& secondNode) const;
     bool operator!=(const ListNode<typeData>& secondNode) const;
@@ -33,7 +33,7 @@ public:
     bool operator<=(const ListNode<typeData>& secondNode) const;
 private:
     typeData data;
-    ListNode* next;
+    std::shared_ptr<ListNode<typeData>> next;
 protected:
 };
 

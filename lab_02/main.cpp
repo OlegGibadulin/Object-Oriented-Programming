@@ -18,13 +18,26 @@ int main()
     int a = 10;
     List <int> list3 = {a};*/
     
+    /*ListIterBase<int> iter;
+    ListNode<int> node(10);
+    ListIterBase<int> iter0(node);*/
+    
+    ListNode <int> node0;
+    ListNode <int> node1(1);
+    ListNode <int> node2(node1);
+    ListNode <int>* ptrNode = new ListNode<int>;
+    ListNode <int> node3(3, ptrNode);
+    
+    cout << node2.getData() << endl;
+    node1.setNext(ptrNode);
+    
     try
     {
         cout << "\n\nКонстуркторы" << endl;
         
-        int a = 10;
+        /*int a = 10;
         List <int> list3 = {a};
-        list3.clear();
+        list3.clear();*/
         
         /*List <int> list0;
         List <int> list1(0, 10);

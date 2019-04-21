@@ -26,7 +26,7 @@ ListIterBase <typeData>::ListIterBase(ListIterBase <typeData>& listIter)
 template <typename typeData>
 ListIterBase <typeData>::ListIterBase(ListNode <typeData>& node)
 {
-    this->ptrCur = &node;
+    this->ptrCur = std::make_shared<ListNode<typeData>>(&node);
 }
 
 template <typename typeData>
@@ -171,13 +171,13 @@ const typeData ConstListIter <typeData>::getCur() const
 }
 
 template <typename typeData>
-const ConstListIter <typeData>& ConstListIter <typeData>::operator * () const
+const typeData& ConstListIter <typeData>::operator * () const
 {
     return *this->ptrCur;
 }
 
 template <typename typeData>
-const ConstListIter <typeData>& ConstListIter <typeData>::operator -> () const
+const typeData* ConstListIter <typeData>::operator -> () const
 {
     return this->ptrCur;
 }
