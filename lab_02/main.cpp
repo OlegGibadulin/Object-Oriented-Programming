@@ -18,18 +18,32 @@ int main()
     int a = 10;
     List <int> list3 = {a};*/
     
-    /*ListIterBase<int> iter;
-    ListNode<int> node(10);
-    ListIterBase<int> iter0(node);*/
+    // cout << list0 << endl;
     
-    ListNode <int> node0;
+    /*ListIter<int> iter;
+    ListNode<int> node(10);
+    ListNode <int>* ptrNode = new ListNode<int>;
+    ListIter<int> iter0(ptrNode);
+    if (iter0.checkRange())
+        // cout << 1 << endl;
+    cout << iter0.getCur() << endl;
+    cout << *iter0 << endl;
+    // iter0.next();
+    // ++iter0;
+    iter0++;
+    if (iter0.checkRange())
+        // cout << 0 << endl;
+    if (iter0 == iter0)
+        // cout << 1 << endl;*/
+    
+    /*ListNode <int> node0;
     ListNode <int> node1(1);
     ListNode <int> node2(node1);
     ListNode <int>* ptrNode = new ListNode<int>;
-    ListNode <int> node3(3, ptrNode);
+    ListNode <int> node3(3, *ptrNode);
     
     cout << node2.getData() << endl;
-    node1.setNext(ptrNode);
+    node1.setNext(ptrNode);*/
     
     try
     {

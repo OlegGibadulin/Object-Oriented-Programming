@@ -46,7 +46,7 @@ public:
     List<typeData>& operator+=(const typeData& data);
     friend List<typeData>& operator+(const List<typeData>& list, const typeData& data);
     
-    void insert(const typeData& data, int posToAdd = 0);// Iterator<typeData>& It);
+    List<typeData>& insert(const typeData& data, ListIter<typeData>& iter);
     friend List<typeData>& operator+(const typeData& data, const List<typeData>& list);
     
     void extend(const List& ListToAdd);
@@ -57,7 +57,7 @@ public:
     List<typeData>& operator--();
     List<typeData> operator--(int);
     
-    typeData& remove(const typeData& dataToSearch);
+    typeData& remove(const typeData& data, ListIter<typeData>& iter);
     List<typeData>& operator-=(const typeData& dataToPop);
     
     void clear();
@@ -65,10 +65,10 @@ public:
     bool operator == (const List<typeData>& someList) const;
     bool operator != (const List<typeData>& someList) const;
     
-    /*ListIter<typeData> begin();
-    void end(ListIter <typeData>& iter);
-    void begin(ConstListIter <typeData>& iter) const;
-    void end(ConstListIter <typeData>& iter) const;*/
+    ListIter<typeData> begin();
+    ListIter<typeData> end();
+    ConstListIter<typeData> begin() const;
+    ConstListIter<typeData> end() const;
 private:
     ListNode<typeData>* head;
     ListNode<typeData>* tail;

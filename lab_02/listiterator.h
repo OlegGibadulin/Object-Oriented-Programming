@@ -19,18 +19,20 @@ class ListIterBase
 {
 public:
     ListIterBase();
-    explicit ListIterBase(ListIterBase<typeData>& listIter);
-    explicit ListIterBase(ListNode<typeData>& node);
+    ListIterBase(const ListIterBase<typeData>& listIter);
+    ListIterBase(ListNode<typeData>* node);
     virtual ~ListIterBase();
     
-    void next();
-    bool isInRange() const;
+    ListIterBase<typeData>& operator=(const ListIterBase<typeData>& listIter);
     
+    void next();
     ListIterBase<typeData>& operator++();
     ListIterBase<typeData> operator++(int);
     
-    bool operator == (const ListIterBase<typeData>& listIter) const;
-    bool operator != (const ListIterBase<typeData>& listIter) const;
+    bool checkRange() const;
+    
+    bool operator==(const ListIterBase<typeData>& listIter) const;
+    bool operator!=(const ListIterBase<typeData>& listIter) const;
 protected:
     std::shared_ptr <ListNode<typeData>> ptrCur;
 };
@@ -41,14 +43,18 @@ class ListIter : public ListIterBase <typeData>
 public:
     ListIter();
     ListIter(const ListIter<typeData>& listIter);
-    ListIter(const ListNode<typeData>& node);
+    ListIter(ListNode<typeData>* node);
     
-    ListIter& operator = (ListIter<typeData>& listIter);
-    ListIter& operator = (ListNode<typeData>& node);
+    ListIter& operator=(ListIter<typeData>& listIter);
     
-    typeData getCur() const;
-    typeData& operator *() const;
-    typeData* operator -> () const;
+    typeData& getCur();
+    const typeData& getCur() const;
+    
+    typeData& operator*();
+    const typeData& operator*() const;
+    
+    typeData* operator->();
+    const typeData* operator->() const;
 };
 
 template <typename typeData>
@@ -57,12 +63,11 @@ class ConstListIter : public ListIterBase <typeData>
 public:
     ConstListIter();
     ConstListIter(const ConstListIter<typeData>& ClistIter);
-    ConstListIter(const ListNode<typeData>& node);
+    ConstListIter(ListNode<typeData>* node);
     
     ConstListIter<typeData>& operator = (ConstListIter<typeData>& listIter);
-    ConstListIter<typeData>& operator = (ListNode<typeData>& node);
     
-    const typeData getCur() const;
+    const typeData& getCur() const;
     const typeData& operator * () const;
     const typeData* operator -> () const;
 };

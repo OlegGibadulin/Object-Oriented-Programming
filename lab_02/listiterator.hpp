@@ -12,64 +12,59 @@
 #include "listiterator.h"
 
 template <typename typeData>
-ListIterBase <typeData>::ListIterBase()
-{
-    this->ptrCur = nullptr;
-}
+ListIterBase <typeData>::ListIterBase() : ptrCur(nullptr) {}
 
 template <typename typeData>
-ListIterBase <typeData>::ListIterBase(ListIterBase <typeData>& listIter)
-{
-    this->ptrCur = listIter.ptrCur;
-}
+ListIterBase <typeData>::ListIterBase(const ListIterBase <typeData>& listIter) : ptrCur(listIter.ptrCur) {}
 
 template <typename typeData>
-ListIterBase <typeData>::ListIterBase(ListNode <typeData>& node)
+ListIterBase <typeData>::ListIterBase(ListNode <typeData>* node) : ptrCur(node) {}
+
+template <typename typeData>
+ListIterBase<typeData>::~ListIterBase() {}
+
+template <typename typeData>
+ListIterBase<typeData>& ListIterBase<typeData>::operator=(const ListIterBase<typeData>& listIter)
 {
-    this->ptrCur = std::make_shared<ListNode<typeData>>(&node);
+    this->ptrCur.reset(this->ptrCur->getNext());
 }
 
 template <typename typeData>
 void ListIterBase <typeData>::next()
 {
-    ptrCur = this->ptrCur->getNext();
+    
+    this->ptrCur.reset(this->ptrCur->getNext());
 }
 
 template <typename typeData>
-bool ListIterBase <typeData>::isInRange() const
-{
-    return (this->ptrCur == nullptr) ? false : true;
-}
-
-template <typename typeData>
-ListIterBase <typeData>::~ListIterBase()
-{
-    this->ptrCur = nullptr;
-}
-
-template <typename typeData>
-ListIterBase <typeData>& ListIterBase <typeData>::operator ++ ()
+ListIterBase<typeData>& ListIterBase<typeData>::operator++()
 {
     this->next();
     return *this;
 }
 
 template <typename typeData>
-ListIterBase <typeData> ListIterBase <typeData>::operator ++ (int)
+ListIterBase<typeData> ListIterBase<typeData>::operator++(int)
 {
-    ListIterBase <typeData> tmp(this);
-    this->next();
+    ListIterBase<typeData> tmp(*this);
+    this->operator++();
     return tmp;
 }
 
 template <typename typeData>
-bool ListIterBase <typeData>::operator == (const ListIterBase <typeData>& listIter) const
+bool ListIterBase <typeData>::checkRange() const
+{
+    return (this->ptrCur == nullptr) ? false : true;
+}
+
+template <typename typeData>
+bool ListIterBase<typeData>::operator==(const ListIterBase<typeData>& listIter) const
 {
     return this->ptrCur == listIter.ptrCur;
 }
 
 template <typename typeData>
-bool ListIterBase <typeData>::operator != (const ListIterBase <typeData>& listIter) const
+bool ListIterBase<typeData>::operator!=(const ListIterBase<typeData>& listIter) const
 {
     return this->ptrCur != listIter.ptrCur;
 }
@@ -83,49 +78,60 @@ ListIter <typeData>::ListIter()
 }
 
 template <typename typeData>
-ListIter <typeData>::ListIter(const ListIter <typeData>& listIter)
+ListIter<typeData>::ListIter(const ListIter<typeData>& listIter)
 {
     this->ptrCur = listIter.ptrCur;
 }
 
 template <typename typeData>
-ListIter <typeData>::ListIter(const ListNode <typeData>& node)
+ListIter<typeData>::ListIter(ListNode<typeData>* node)
 {
-    this->ptrCur = node;
+    this->ptrCur.reset(node);
 }
 
 template <typename typeData>
-ListIter <typeData>& ListIter <typeData>::operator = (ListIter& listIter)
+ListIter<typeData>& ListIter <typeData>::operator = (ListIter<typeData>& listIter)
 {
     if (this != &listIter)
-        this->ptrCur = listIter.ptrCur;
+        this->ptrCur.reset(listIter.ptrCur);
     
     return *this;
 }
 
 template <typename typeData>
-ListIter <typeData>& ListIter <typeData>::operator = (ListNode <typeData>& node)
+typeData& ListIter <typeData>::getCur()
 {
-    this->ptrCur = &node;
-    return *this;
+    return (this->ptrCur->getPtrData());
 }
 
 template <typename typeData>
-typeData ListIter <typeData>::getCur() const
+const typeData& ListIter <typeData>::getCur() const
 {
-    return this->ptrCur->getData();
+    return this->ptrCur->getPtrData();
 }
 
 template <typename typeData>
-typeData& ListIter <typeData>::operator * () const
+typeData& ListIter <typeData>::operator * ()
 {
-    return *this->ptrCur->getData();
+    return this->ptrCur->getPtrData();
 }
 
 template <typename typeData>
-typeData* ListIter <typeData>::operator -> () const
+const typeData& ListIter <typeData>::operator * () const
 {
-    return this->ptrCur->getCur();
+    return this->ptrCur->getPtrData();
+}
+
+template <typename typeData>
+typeData* ListIter <typeData>::operator -> ()
+{
+    return &this->ptrCur->getPtrData();
+}
+
+template <typename typeData>
+const typeData* ListIter <typeData>::operator -> () const
+{
+    return &this->ptrCur->getPtrData();
 }
 
 // ConstListIter
@@ -143,43 +149,36 @@ ConstListIter <typeData>::ConstListIter(const ConstListIter <typeData>& ClistIte
 }
 
 template <typename typeData>
-ConstListIter <typeData>::ConstListIter(const ListNode <typeData>& node)
+ConstListIter<typeData>::ConstListIter(ListNode<typeData>* node)
 {
-    this->ptrCur = node;
+    this->ptrCur.reset(node);
 }
 
 template <typename typeData>
-ConstListIter <typeData>& ConstListIter <typeData>::operator = (ConstListIter& listIter)
+ConstListIter<typeData>& ConstListIter <typeData>::operator = (ConstListIter<typeData>& listIter)
 {
     if (this != &listIter)
-        this->ptrCur = listIter.ptrCur;
+        this->ptrCur.reset(listIter.ptrCur);
     
     return *this;
 }
 
 template <typename typeData>
-ConstListIter <typeData>& ConstListIter <typeData>::operator = (ListNode <typeData>& node)
+const typeData& ConstListIter<typeData>::getCur() const
 {
-    this->ptrCur = &node;
-    return *this;
-}
-
-template <typename typeData>
-const typeData ConstListIter <typeData>::getCur() const
-{
-    return this->ptrCur->getData();
+    return this->ptrCur->getPtrData();
 }
 
 template <typename typeData>
 const typeData& ConstListIter <typeData>::operator * () const
 {
-    return *this->ptrCur;
+    return this->ptrCur->getPtrData();
 }
 
 template <typename typeData>
 const typeData* ConstListIter <typeData>::operator -> () const
 {
-    return this->ptrCur;
+    return &this->ptrCur->getPtrData();
 }
 
 #endif /* listiterator_hpp */
