@@ -32,8 +32,7 @@ ListIterBase<typeData>& ListIterBase<typeData>::operator=(const ListIterBase<typ
 template <typename typeData>
 void ListIterBase <typeData>::next()
 {
-    
-    this->ptrCur.reset(this->ptrCur->getNext());
+    this->ptrCur = this->ptrCur->getNext();
 }
 
 template <typename typeData>
@@ -84,9 +83,9 @@ ListIter<typeData>::ListIter(const ListIter<typeData>& listIter)
 }
 
 template <typename typeData>
-ListIter<typeData>::ListIter(ListNode<typeData>* node)
+ListIter<typeData>::ListIter(std::shared_ptr<ListNode<typeData>> node)
 {
-    this->ptrCur.reset(node);
+    this->ptrCur = node;
 }
 
 template <typename typeData>

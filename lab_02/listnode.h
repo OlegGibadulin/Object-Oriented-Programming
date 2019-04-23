@@ -15,8 +15,9 @@ class ListNode
 public:
     ListNode();
     explicit ListNode(const typeData dataToAdd);
-    ListNode(ListNode<typeData>& node);
-    ListNode(const typeData data, ListNode<typeData>& nextNode);
+    ListNode(ListNode<typeData>* node);
+    ListNode(std::shared_ptr <ListNode<typeData>> node);
+    ListNode(const typeData data, ListNode<typeData>* nextNode);
     virtual ~ListNode();
     
     void setData(const typeData data);
@@ -24,7 +25,10 @@ public:
     typeData& getPtrData();
     
     void setNext(ListNode<typeData>* nextNode);
-    ListNode* getNext();
+    void setNext(std::shared_ptr <ListNode<typeData>> nextNode);
+    std::shared_ptr <ListNode<typeData>> getNext();
+    
+    std::shared_ptr <ListNode<typeData>> getCur();
     
     bool operator==(const ListNode<typeData>& secondNode) const;
     bool operator!=(const ListNode<typeData>& secondNode) const;
@@ -34,7 +38,7 @@ public:
     bool operator<=(const ListNode<typeData>& secondNode) const;
 private:
     typeData data;
-    ListNode* next;
+    std::shared_ptr <ListNode<typeData>> next;
 protected:
 };
 

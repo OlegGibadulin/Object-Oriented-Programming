@@ -40,10 +40,40 @@ int main()
     ListNode <int> node1(1);
     ListNode <int> node2(node1);
     ListNode <int>* ptrNode = new ListNode<int>;
-    ListNode <int> node3(3, *ptrNode);
+    ListNode <int> node3(3, ptrNode);
     
-    cout << node2.getData() << endl;
-    node1.setNext(ptrNode);*/
+    cout << "!" << node2.getData() << endl;
+    
+    ListNode <int>* ptrNode1 = new ListNode<int>;
+    node1.setNext(ptrNode1);*/
+    
+    List <int> list0(10, 10);
+    list0.showList();
+    
+    cout << list0 << endl;
+    cout << list0 << endl;
+    
+    List <int> list1 = {0, 1, 2, 3, 4};
+    List <int> list2(list1);
+    cout << list2;
+    List <int> list3;
+    list3 += list2;
+    list3 += list3;
+    list3.extend(list2);
+    cout << list3;
+    
+    if (list0 != list1)
+        cout << "asklj";
+    
+    cout << list0;
+    cout << list1;
+    list0 = list1;
+    cout << list0;
+    cout << list1;
+    
+    if (list0 == list1)
+        cout << "asklj";
+    
     
     try
     {

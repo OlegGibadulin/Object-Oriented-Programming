@@ -43,7 +43,7 @@ class ListIter : public ListIterBase <typeData>
 public:
     ListIter();
     ListIter(const ListIter<typeData>& listIter);
-    ListIter(ListNode<typeData>* node);
+    ListIter(std::shared_ptr<ListNode<typeData>> node);
     
     ListIter& operator=(ListIter<typeData>& listIter);
     
@@ -65,11 +65,11 @@ public:
     ConstListIter(const ConstListIter<typeData>& ClistIter);
     ConstListIter(ListNode<typeData>* node);
     
-    ConstListIter<typeData>& operator = (ConstListIter<typeData>& listIter);
+    ConstListIter<typeData>& operator=(ConstListIter<typeData>& listIter);
     
     const typeData& getCur() const;
-    const typeData& operator * () const;
-    const typeData* operator -> () const;
+    const typeData& operator*() const;
+    const typeData* operator->() const;
 };
 
 #endif /* listiterator_h */
