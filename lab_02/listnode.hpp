@@ -18,21 +18,15 @@ template <typename typeData>
 ListNode<typeData>::ListNode(const typeData data) : data(data), next(nullptr) {}
 
 template <typename typeData>
-ListNode<typeData>::ListNode(ListNode* node) : data(node->data)
-{
-    this->next = std::make_shared<ListNode<typeData>>(node);
-}
-
-template <typename typeData>
-ListNode<typeData>::ListNode(std::shared_ptr <ListNode<typeData>> node) : data(node->data)
+ListNode<typeData>::ListNode(const std::shared_ptr <ListNode<typeData>> node) : data(node->data)
 {
     this->next = node;
 }
 
 template <typename typeData>
-ListNode<typeData>::ListNode(const typeData data, ListNode* nextNode) : data(data)
+ListNode<typeData>::ListNode(const typeData data, const std::shared_ptr <ListNode<typeData>> nextNode) : data(data)
 {
-    this->next.reset(nextNode);
+    this->next = nextNode;
 }
 
 template <typename typeData>
@@ -61,13 +55,7 @@ typeData& ListNode<typeData>::getPtrData()
 }
 
 template <typename typeData>
-void ListNode<typeData>::setNext(ListNode<typeData>* nextNode)
-{
-    this->next.reset(nextNode);
-}
-
-template <typename typeData>
-void ListNode<typeData>::setNext(std::shared_ptr <ListNode<typeData>> nextNode)
+void ListNode<typeData>::setNext(const std::shared_ptr <ListNode<typeData>> nextNode)
 {
     this->next = nextNode;
 }

@@ -153,33 +153,40 @@ List<typeData>& operator+(const typeData& data, const List<typeData>& list)
 }
 
 template <typename typeData>
-void List<typeData>::insert(const typeData& data, int posToAdd)
+List<typeData>& List<typeData>::insert(const typeData& data, ListIter<typeData>& iter)
 {
-    if (posToAdd < 0)
-        posToAdd = int (sizeList) + posToAdd;
+    std::shared_ptr<ListNode<typeData>> curNode = this->head;
+    std::shared_ptr<ListNode<typeData>> tmp = nullptr;
+    ListIter<typeData> cur = this->begin();
     
-    if (this->isEmpty() || posToAdd <= 0)
+    if (this->head == nullptr && cur == iter)
     {
-        ListNode<typeData>* headNode = this->head;
-        this->head = initNode(data, headNode);
+        std::shared_ptr<ListNode<typeData>> newNode = initNode(data);
+        this->head = newNode;
+        this->tail = newNode;
+        return *this;
     }
+    
+    for (; curNode && cur != iter; tmp = curNode, curNode = curNode->getNext(), cur.next());
+    
+    if (curNode == nullptr)
+        throw RangeError(": method - insert()");
+    
+    std::shared_ptr<ListNode<typeData>> newNode = initNode(data, curNode);
+    
+    if (curNode == this->head)
+        this->head = newNode;
     else
-    {
-        ListNode<typeData> *cur = this->head;
-        for (int i = 1; cur->getNext() && i < posToAdd; i++, cur = cur->getNext());
-        ListNode<typeData>* nextNode = cur->getNext();
-        ListNode<typeData>* newNode = initNode(data, nextNode);
-        cur->setNext(newNode);
-        if (nextNode == nullptr)
-            this->tail = newNode;
-    }
+        tmp->setNext(newNode);
+    
+    return *this;
 }
 
 template <typename typeData>
-void List<typeData>::extend(const List& ListToAdd)
+List<typeData>& List<typeData>::extend(const List& ListToAdd)
 {
     if (ListToAdd.isEmpty())
-        return;
+        return *this;
     
     if (this == &ListToAdd)
     {
@@ -191,56 +198,55 @@ void List<typeData>::extend(const List& ListToAdd)
     {
         addList(ListToAdd);
     }
+    
+    return *this;
 }
 
 template <typename typeData>
-typeData& List<typeData>::remove(const typeData& dataToSearch)
+typeData& List<typeData>::remove(ListIter<typeData>& iter)
 {
-    /*if (this->isEmpty())
-     throw EmptyError();
-     
-     ListNode<typeData>* cur = this->head;
-     ListNode<typeData>* tmp = this->head;
-     
-     for (; cur && cur->getData() != dataToSearch; tmp = cur, cur = cur->getNext());
-     
-     if (cur == nullptr)
-     throw ValueError();
-     
-     deleteNode(cur, tmp);*/
+    if (this->isEmpty())
+        throw EmptyError(": method - remove()");
+    
+    std::shared_ptr<ListNode<typeData>> curNode = this->head;
+    std::shared_ptr<ListNode<typeData>> tmp = nullptr;
+    ListIter<typeData> cur = this->begin();
+    
+    for (; curNode && cur != iter; tmp = curNode, curNode = curNode->getNext(), cur.next());
+    
+    if (curNode == nullptr)
+        throw RangeError(": method - remove()");
+    
+    if (curNode->getNext() == nullptr)
+        this->tail = tmp;
+    
+    if (curNode == this->head)
+        this->head = this->head->getNext();
+    else
+        tmp->setNext(curNode->getNext());
+    this->sizeList -= 1;
+    
+    return iter.getCur();
 }
 
 template <typename typeData>
 typeData& List<typeData>::pop()
 {
-    int posToDel = -1;
     if (this->isEmpty())
-     throw EmptyError();
-     
-     if (std::abs(posToDel) >= int (sizeList))
-     throw RangeError();
-     
-     ListNode<typeData>* cur = this->head;
-     ListNode<typeData>* tmp = this->head;
-     typeData retData;
-     
-     if (posToDel < 0)
-     posToDel = int (sizeList) + posToDel;
-     
-     for (int i = 0; i != posToDel; tmp = cur, cur = cur->getNext(), ++i);
-     retData = cur->getData();
-     
-     deleteNode(cur, tmp);
-     
-     return retData;
+        throw EmptyError(": method - pop()");
+    
+    ListIter<typeData> iter = this->end();
+    return remove(iter);
 }
 
 template <typename typeData>
-void List<typeData>::clear()
+List<typeData>& List<typeData>::clear()
 {
     this->head = nullptr;
     this->tail = nullptr;
     this->sizeList = 0;
+    
+    return *this;
 }
 
 template <typename typeData>
@@ -271,7 +277,7 @@ ListIter<typeData> List<typeData>::begin()
 template <typename typeData>
 ListIter<typeData> List<typeData>::end()
 {
-    return ListIter<typeData>(tail->getNext());
+    return ListIter<typeData>(tail);
 }
 
 template <typename typeData>
@@ -283,7 +289,7 @@ ConstListIter<typeData> List<typeData>::begin() const
 template <typename typeData>
 ConstListIter<typeData> List<typeData>::end() const
 {
-    return ConstListIter<typeData>(tail->getNext());
+    return ConstListIter<typeData>(tail);
 }
 
 // List: protected methods
@@ -302,22 +308,6 @@ std::shared_ptr<ListNode<typeData>> List<typeData>::initNode(const typeData& dat
     this->sizeList += 1;
     
     return newNode;
-}
-
-template <typename typeData>
-void List<typeData>::deleteNode(ListNode<typeData> *cur, ListNode<typeData> *tmp)
-{
-    if (cur == this->head)
-    {
-        this->head = cur->getNext();
-        delete(cur);
-    }
-    else
-    {
-        tmp->setNext(cur->getNext());
-        delete(cur);
-    }
-    this->sizeList -= 1;
 }
 
 template <typename typeData>

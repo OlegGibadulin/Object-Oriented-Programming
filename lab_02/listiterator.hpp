@@ -18,7 +18,7 @@ template <typename typeData>
 ListIterBase <typeData>::ListIterBase(const ListIterBase <typeData>& listIter) : ptrCur(listIter.ptrCur) {}
 
 template <typename typeData>
-ListIterBase <typeData>::ListIterBase(ListNode <typeData>* node) : ptrCur(node) {}
+ListIterBase <typeData>::ListIterBase(const std::shared_ptr<ListNode<typeData>> node) : ptrCur(node) {}
 
 template <typename typeData>
 ListIterBase<typeData>::~ListIterBase() {}
@@ -26,7 +26,7 @@ ListIterBase<typeData>::~ListIterBase() {}
 template <typename typeData>
 ListIterBase<typeData>& ListIterBase<typeData>::operator=(const ListIterBase<typeData>& listIter)
 {
-    this->ptrCur.reset(this->ptrCur->getNext());
+    this->ptrCur = listIter.ptrCur;
 }
 
 template <typename typeData>
@@ -83,16 +83,16 @@ ListIter<typeData>::ListIter(const ListIter<typeData>& listIter)
 }
 
 template <typename typeData>
-ListIter<typeData>::ListIter(std::shared_ptr<ListNode<typeData>> node)
+ListIter<typeData>::ListIter(const std::shared_ptr<ListNode<typeData>> node)
 {
     this->ptrCur = node;
 }
 
 template <typename typeData>
-ListIter<typeData>& ListIter <typeData>::operator = (ListIter<typeData>& listIter)
+ListIter<typeData>& ListIter <typeData>::operator=(const ListIter<typeData>& listIter)
 {
     if (this != &listIter)
-        this->ptrCur.reset(listIter.ptrCur);
+        this->ptrCur = listIter.ptrCur;
     
     return *this;
 }
@@ -100,7 +100,7 @@ ListIter<typeData>& ListIter <typeData>::operator = (ListIter<typeData>& listIte
 template <typename typeData>
 typeData& ListIter <typeData>::getCur()
 {
-    return (this->ptrCur->getPtrData());
+    return this->ptrCur->getPtrData();
 }
 
 template <typename typeData>
@@ -142,22 +142,22 @@ ConstListIter <typeData>::ConstListIter()
 }
 
 template <typename typeData>
-ConstListIter <typeData>::ConstListIter(const ConstListIter <typeData>& ClistIter)
+ConstListIter <typeData>::ConstListIter(const ConstListIter <typeData>& listIter)
 {
-    this->ptrCur = ClistIter.ptrCur;
+    this->ptrCur = listIter.ptrCur;
 }
 
 template <typename typeData>
-ConstListIter<typeData>::ConstListIter(ListNode<typeData>* node)
+ConstListIter<typeData>::ConstListIter(const std::shared_ptr<ListNode<typeData>> node)
 {
-    this->ptrCur.reset(node);
+    this->ptrCur = node;
 }
 
 template <typename typeData>
-ConstListIter<typeData>& ConstListIter <typeData>::operator = (ConstListIter<typeData>& listIter)
+ConstListIter<typeData>& ConstListIter <typeData>::operator=(const ConstListIter<typeData>& listIter)
 {
     if (this != &listIter)
-        this->ptrCur.reset(listIter.ptrCur);
+        this->ptrCur = listIter.ptrCur;
     
     return *this;
 }

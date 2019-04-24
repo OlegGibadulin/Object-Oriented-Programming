@@ -20,7 +20,7 @@ class ListIterBase
 public:
     ListIterBase();
     ListIterBase(const ListIterBase<typeData>& listIter);
-    ListIterBase(ListNode<typeData>* node);
+    ListIterBase(const std::shared_ptr<ListNode<typeData>> node);
     virtual ~ListIterBase();
     
     ListIterBase<typeData>& operator=(const ListIterBase<typeData>& listIter);
@@ -43,9 +43,9 @@ class ListIter : public ListIterBase <typeData>
 public:
     ListIter();
     ListIter(const ListIter<typeData>& listIter);
-    ListIter(std::shared_ptr<ListNode<typeData>> node);
+    ListIter(const std::shared_ptr<ListNode<typeData>> node);
     
-    ListIter& operator=(ListIter<typeData>& listIter);
+    ListIter<typeData>& operator=(const ListIter<typeData>& listIter);
     
     typeData& getCur();
     const typeData& getCur() const;
@@ -62,10 +62,10 @@ class ConstListIter : public ListIterBase <typeData>
 {
 public:
     ConstListIter();
-    ConstListIter(const ConstListIter<typeData>& ClistIter);
-    ConstListIter(ListNode<typeData>* node);
+    ConstListIter(const ConstListIter<typeData>& listIter);
+    ConstListIter(const std::shared_ptr<ListNode<typeData>> node);
     
-    ConstListIter<typeData>& operator=(ConstListIter<typeData>& listIter);
+    ConstListIter<typeData>& operator=(const ConstListIter<typeData>& listIter);
     
     const typeData& getCur() const;
     const typeData& operator*() const;

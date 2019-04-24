@@ -15,17 +15,15 @@ class ListNode
 public:
     ListNode();
     explicit ListNode(const typeData dataToAdd);
-    ListNode(ListNode<typeData>* node);
-    ListNode(std::shared_ptr <ListNode<typeData>> node);
-    ListNode(const typeData data, ListNode<typeData>* nextNode);
+    explicit ListNode(const std::shared_ptr <ListNode<typeData>> node);
+    ListNode(const typeData data, const std::shared_ptr <ListNode<typeData>> nextNode);
     virtual ~ListNode();
     
     void setData(const typeData data);
     typeData getData() const;
     typeData& getPtrData();
     
-    void setNext(ListNode<typeData>* nextNode);
-    void setNext(std::shared_ptr <ListNode<typeData>> nextNode);
+    void setNext(const std::shared_ptr <ListNode<typeData>> nextNode);
     std::shared_ptr <ListNode<typeData>> getNext();
     
     std::shared_ptr <ListNode<typeData>> getCur();
