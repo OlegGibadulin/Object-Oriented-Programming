@@ -12,7 +12,10 @@
 #include "listiterator.h"
 
 template <typename typeData>
-ListIterBase <typeData>::ListIterBase() : ptrCur(nullptr) {}
+ListIterBase <typeData>::ListIterBase()
+{
+    this->ptrCur.lock() = nullptr;
+}
 
 template <typename typeData>
 ListIterBase <typeData>::ListIterBase(const ListIterBase <typeData>& listIter) : ptrCur(listIter.ptrCur) {}
@@ -26,13 +29,17 @@ ListIterBase<typeData>::~ListIterBase() {}
 template <typename typeData>
 ListIterBase<typeData>& ListIterBase<typeData>::operator=(const ListIterBase<typeData>& listIter)
 {
-    this->ptrCur = listIter.ptrCur;
+    if (this != &listIter)
+        this->ptrCur = listIter.ptrCur;
+    
+    return *this;
 }
 
 template <typename typeData>
-void ListIterBase <typeData>::next()
+ListIterBase<typeData>& ListIterBase <typeData>::next()
 {
-    this->ptrCur = this->ptrCur->getNext();
+    this->ptrCur = this->ptrCur.lock()->getNext();
+    return *this;
 }
 
 template <typename typeData>
@@ -53,19 +60,19 @@ ListIterBase<typeData> ListIterBase<typeData>::operator++(int)
 template <typename typeData>
 bool ListIterBase <typeData>::checkRange() const
 {
-    return (this->ptrCur == nullptr) ? false : true;
+    return (this->ptrCur.lock() == nullptr) ? false : true;
 }
 
 template <typename typeData>
 bool ListIterBase<typeData>::operator==(const ListIterBase<typeData>& listIter) const
 {
-    return this->ptrCur == listIter.ptrCur;
+    return this->ptrCur.lock() == listIter.ptrCur.lock();
 }
 
 template <typename typeData>
 bool ListIterBase<typeData>::operator!=(const ListIterBase<typeData>& listIter) const
 {
-    return this->ptrCur != listIter.ptrCur;
+    return this->ptrCur.lock() != listIter.ptrCur.lock();
 }
 
 // ListIter
@@ -73,7 +80,7 @@ bool ListIterBase<typeData>::operator!=(const ListIterBase<typeData>& listIter) 
 template <typename typeData>
 ListIter <typeData>::ListIter()
 {
-    this->ptrCur = nullptr;
+    this->ptrCur.lock() = nullptr;
 }
 
 template <typename typeData>
@@ -100,37 +107,37 @@ ListIter<typeData>& ListIter <typeData>::operator=(const ListIter<typeData>& lis
 template <typename typeData>
 typeData& ListIter <typeData>::getCur()
 {
-    return this->ptrCur->getPtrData();
+    return this->ptrCur.lock()->getPtrData();
 }
 
 template <typename typeData>
 const typeData& ListIter <typeData>::getCur() const
 {
-    return this->ptrCur->getPtrData();
+    return this->ptrCur.lock()->getPtrData();
 }
 
 template <typename typeData>
 typeData& ListIter <typeData>::operator * ()
 {
-    return this->ptrCur->getPtrData();
+    return this->ptrCur.lock()->getPtrData();
 }
 
 template <typename typeData>
 const typeData& ListIter <typeData>::operator * () const
 {
-    return this->ptrCur->getPtrData();
+    return this->ptrCur.lock()->getPtrData();
 }
 
 template <typename typeData>
 typeData* ListIter <typeData>::operator -> ()
 {
-    return &this->ptrCur->getPtrData();
+    return &this->ptrCur.lock()->getPtrData();
 }
 
 template <typename typeData>
 const typeData* ListIter <typeData>::operator -> () const
 {
-    return &this->ptrCur->getPtrData();
+    return &this->ptrCur.lock()->getPtrData();
 }
 
 // ConstListIter
@@ -138,7 +145,7 @@ const typeData* ListIter <typeData>::operator -> () const
 template <typename typeData>
 ConstListIter <typeData>::ConstListIter()
 {
-    this->ptrCur = nullptr;
+    this->ptrCur.lock() = nullptr;
 }
 
 template <typename typeData>
@@ -165,19 +172,19 @@ ConstListIter<typeData>& ConstListIter <typeData>::operator=(const ConstListIter
 template <typename typeData>
 const typeData& ConstListIter<typeData>::getCur() const
 {
-    return this->ptrCur->getPtrData();
+    return this->ptrCur.lock()->getPtrData();
 }
 
 template <typename typeData>
 const typeData& ConstListIter <typeData>::operator * () const
 {
-    return this->ptrCur->getPtrData();
+    return this->ptrCur.lock()->getPtrData();
 }
 
 template <typename typeData>
 const typeData* ConstListIter <typeData>::operator -> () const
 {
-    return &this->ptrCur->getPtrData();
+    return &this->ptrCur.lock()->getPtrData();
 }
 
 #endif /* listiterator_hpp */

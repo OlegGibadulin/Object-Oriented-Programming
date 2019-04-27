@@ -79,8 +79,9 @@ int main()
         cout << list7 << endl;
         list7.remove(iter3);
         cout << list7 << endl;
-        iter3++;
-        ++iter3;
+        ListIter<int> iter4(list7.begin());
+        iter4++;
+        ++iter4;
         list7.remove(iter3);
         cout << list7 << endl;
         

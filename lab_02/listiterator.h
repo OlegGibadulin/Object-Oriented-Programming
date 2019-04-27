@@ -25,7 +25,7 @@ public:
     
     ListIterBase<typeData>& operator=(const ListIterBase<typeData>& listIter);
     
-    void next();
+    ListIterBase<typeData>& next();
     ListIterBase<typeData>& operator++();
     ListIterBase<typeData> operator++(int);
     
@@ -34,7 +34,7 @@ public:
     bool operator==(const ListIterBase<typeData>& listIter) const;
     bool operator!=(const ListIterBase<typeData>& listIter) const;
 protected:
-    std::shared_ptr <ListNode<typeData>> ptrCur;
+    std::weak_ptr<ListNode<typeData>> ptrCur;
 };
 
 template <typename typeData>
