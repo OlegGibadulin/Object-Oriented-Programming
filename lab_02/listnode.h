@@ -26,8 +26,6 @@ public:
     void setNext(const std::shared_ptr <ListNode<typeData>> nextNode);
     std::shared_ptr <ListNode<typeData>> getNext();
     
-    std::shared_ptr <ListNode<typeData>> getCur();
-    
     bool operator==(const ListNode<typeData>& secondNode) const;
     bool operator!=(const ListNode<typeData>& secondNode) const;
     bool operator>(const ListNode<typeData>& secondNode) const;

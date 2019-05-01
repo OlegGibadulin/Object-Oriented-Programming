@@ -18,7 +18,7 @@ public:
     explicit ErrorBase(const char* message) : message(message) {}
     explicit ErrorBase(const std::string& message) : message(message) {}
     
-    virtual const char* what() const throw()
+    virtual const char* what() const noexcept override
     {
         return message.c_str();
     }
@@ -51,15 +51,6 @@ private:
 public:
     explicit RangeError() : ErrorBase(ErrorMsg) {}
     explicit RangeError(const std::string& message) : ErrorBase(ErrorMsg + message) {}
-};
-
-class ValueError : public ErrorBase
-{
-private:
-    static constexpr const char* ErrorMsg = "Value not in list";
-public:
-    explicit ValueError() : ErrorBase(ErrorMsg) {}
-    explicit ValueError(const std::string& message) : ErrorBase(ErrorMsg + message) {}
 };
 
 #endif /* errors_h */

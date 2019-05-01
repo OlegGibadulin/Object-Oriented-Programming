@@ -176,13 +176,13 @@ const typeData& ConstListIter<typeData>::getCur() const
 }
 
 template <typename typeData>
-const typeData& ConstListIter <typeData>::operator * () const
+const typeData& ConstListIter <typeData>::operator*() const
 {
     return this->ptrCur.lock()->getPtrData();
 }
 
 template <typename typeData>
-const typeData* ConstListIter <typeData>::operator -> () const
+const typeData* ConstListIter <typeData>::operator->() const
 {
     return &this->ptrCur.lock()->getPtrData();
 }

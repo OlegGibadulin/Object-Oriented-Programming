@@ -41,23 +41,22 @@ public:
     
     List<typeData>& operator=(const List<typeData>& someList);
     List<typeData>& operator=(List<typeData>&& someList);
+    // List<typeData>& operator=(const std::initializer_list<typeData>& someList);
     
     List<typeData>& append(const typeData& data);
     List<typeData>& operator+=(const typeData& data);
-    friend List<typeData>& operator+(const List<typeData>& list, const typeData& data);
+    List<typeData> operator+(const typeData& data) const;
     
-    List<typeData>& insert(const typeData& data, ListIter<typeData>& iter);
-    friend List<typeData>& operator+(const typeData& data, const List<typeData>& list);
+    List<typeData>& insert(const typeData& data, const ListIter<typeData>& iter);
+    friend List<typeData> operator+(const typeData& data, const List<typeData>& list);
     
     List<typeData>& extend(const List& ListToAdd);
     List<typeData>& operator+=(const List<typeData>& someList);
-    List<typeData>& operator+(const List<typeData>& somelist);
+    List<typeData> operator+(const List<typeData>& somelist) const;
     
-    typeData& pop();
-    List<typeData>& operator--();
-    List<typeData> operator--(int);
+    const typeData pop(); // typeData&
     
-    typeData& remove(ListIter<typeData>& iter);
+    const typeData remove(const ListIter<typeData>& iter); // typeData&
     
     List<typeData>& clear();
     

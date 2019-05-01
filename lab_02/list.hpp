@@ -153,7 +153,7 @@ List<typeData>& operator+(const typeData& data, const List<typeData>& list)
 }
 
 template <typename typeData>
-List<typeData>& List<typeData>::insert(const typeData& data, ListIter<typeData>& iter)
+List<typeData>& List<typeData>::insert(const typeData& data, const ListIter<typeData>& iter)
 {
     std::shared_ptr<ListNode<typeData>> curNode = this->head;
     std::shared_ptr<ListNode<typeData>> tmp = nullptr;
@@ -203,7 +203,7 @@ List<typeData>& List<typeData>::extend(const List& ListToAdd)
 }
 
 template <typename typeData>
-typeData& List<typeData>::remove(ListIter<typeData>& iter)
+const typeData List<typeData>::remove(const ListIter<typeData>& iter)
 {
     if (this->isEmpty())
         throw EmptyError(": method - remove()");
@@ -217,6 +217,8 @@ typeData& List<typeData>::remove(ListIter<typeData>& iter)
     if (curNode == nullptr)
         throw RangeError(": method - remove()");
     
+    typeData retData = iter.getCur();
+    
     if (curNode->getNext() == nullptr)
         this->tail = tmp;
     
@@ -226,11 +228,11 @@ typeData& List<typeData>::remove(ListIter<typeData>& iter)
         tmp->setNext(curNode->getNext());
     this->sizeList -= 1;
     
-    return iter.getCur();
+    return retData;
 }
 
 template <typename typeData>
-typeData& List<typeData>::pop()
+const typeData List<typeData>::pop()
 {
     if (this->isEmpty())
         throw EmptyError(": method - pop()");

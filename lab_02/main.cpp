@@ -82,7 +82,7 @@ int main()
         ListIter<int> iter4(list7.begin());
         iter4++;
         ++iter4;
-        list7.remove(iter3);
+        list7.remove(iter4);
         cout << list7 << endl;
         
         cout << "\n * pop()" << endl;
